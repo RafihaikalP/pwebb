@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Laporan Praktikum 7 Rafi Haikal Pratama" />
+    <meta name="author" content="Rafi Haikal Pratama" />
+    <title>Laporan Praktikum 7 | RAFI HAIKAL PRATAMA</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="192x192" href="images/rafilogo-192x192.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --red: #e8001f;
+        --red-dim: rgba(232, 0, 31, 0.3);
+        --surface: #0d1219;
+        --surface2: #111820;
+        --muted: #5c7896;
+        --secondary: #9aa5b4;
+        --f-display: "Barlow Condensed", sans-serif;
+        --f-mono: "Share Tech Mono", monospace;
+        --f-body: "Barlow", sans-serif;
+      }
+
+      body {
+        background: #080b10;
+        color: #f0f2f5;
+        font-family: var(--f-body);
+        overflow-x: hidden;
+        margin: 0;
+      }
+
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1050;
+        background: rgba(6, 8, 16, 0.96);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(204, 0, 24, 0.28);
+        padding: 0.65rem 0;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+      }
+
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .nav-brand-box {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 0.82rem;
+        letter-spacing: 1px;
+        background: var(--red);
+        color: #fff;
+        padding: 0.22rem 0.55rem;
+        clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 100%, 0 100%);
+      }
+
+      .nav-brand-name {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        padding: 0.45rem 0.9rem;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      .nav-links a.active {
+        color: var(--red);
+      }
+
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.9rem;
+        right: 0.9rem;
+        height: 2px;
+        background: var(--red);
+      }
+
+      .nav-links a:not(.active):hover {
+        color: #fff;
+      }
+
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+        z-index: 1100;
+      }
+
+      .nav-hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+
+      .nav-hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      .nav-hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        background: rgba(6, 8, 16, 0.98);
+        backdrop-filter: blur(20px);
+        z-index: 1040;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.2rem;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 3px solid var(--red);
+      }
+
+      .mobile-nav.open {
+        transform: translateX(0);
+      }
+
+      .mobile-nav a {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: 2.4rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        transition: color 0.2s;
+        position: relative;
+      }
+
+      .mobile-nav a.active,
+      .mobile-nav a:hover {
+        color: var(--red);
+      }
+
+      .mobile-nav-close {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      .mobile-nav-slash {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 1rem;
+        color: rgba(232, 0, 31, 0.4);
+        letter-spacing: -2px;
+        margin-top: 0.5rem;
+      }
+
+      .lap-hero {
+        position: relative;
+        min-height: 36vh;
+        display: flex;
+        align-items: flex-end;
+        padding-top: 70px;
+        overflow: hidden;
+        background: #080b10;
+      }
+
+      .lap-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #080b10 0%, #0e0204 40%, #1a0005 70%, #080b10 100%);
+      }
+
+      .lap-hero-ghost {
+        position: absolute;
+        right: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: clamp(4rem, 14vw, 11rem);
+        color: rgba(255, 255, 255, 0.018);
+        pointer-events: none;
+        line-height: 1;
+        letter-spacing: -4px;
+        user-select: none;
+      }
+
+      .lap-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 3rem 2rem 2.5rem 3rem;
+      }
+
+      .lap-hero-num {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 4px;
+        color: var(--red);
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .lap-hero-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        line-height: 0.88;
+        text-transform: uppercase;
+        color: #fff;
+        margin: 0;
+      }
+
+      .lap-hero-title span {
+        color: var(--red);
+      }
+
+      .lap-hero-sub {
+        font-family: var(--f-mono);
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-top: 1rem;
+      }
+
+      .lap-hero-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--red) 0%, rgba(232, 0, 31, 0.3) 60%, transparent 100%);
+      }
+
+      .site-footer {
+        background: #050810;
+        border-top: 1px solid rgba(204, 0, 24, 0.25);
+        padding: 3.5rem 0 1.5rem;
+      }
+
+      .ft-copy,
+      .ft-built {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      .ft-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .ft-built .sl {
+        color: var(--red);
+        letter-spacing: -2px;
+        font-size: 0.8rem;
+      }
+
+      .scroll-top {
+        position: fixed;
+        bottom: 1.7rem;
+        right: 1.7rem;
+        width: 42px;
+        height: 42px;
+        background: #cc0018;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 16px rgba(204, 0, 24, 0.5);
+        transition:
+          transform 0.2s,
+          background 0.2s,
+          opacity 0.3s;
+        z-index: 999;
+        opacity: 0;
+      }
+
+      .scroll-top.show {
+        opacity: 1;
+      }
+
+      .scroll-top:hover {
+        transform: translateY(-3px);
+        background: var(--red);
+        color: #fff;
+      }
+
+      /* ============================= */
+      /* CSS TAMBAHAN LAPORAN 7        */
+      /* ============================= */
+
+      .report-sec {
+        padding: 4rem 0;
+        background:
+          radial-gradient(circle at top left, rgba(232, 0, 31, 0.08), transparent 32%),
+          #080b10;
+      }
+
+      .back-link {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-bottom: 1.4rem;
+        transition: gap 0.2s, color 0.2s;
+      }
+
+      .back-link:hover {
+        gap: 0.75rem;
+        color: #ff3350;
+      }
+
+      .report-header {
+        background: linear-gradient(135deg, rgba(17, 24, 32, 0.98), rgba(13, 18, 25, 0.96));
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        border-radius: 4px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(232, 0, 31, 0.16), transparent 45%);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .report-header > * {
+        position: relative;
+        z-index: 2;
+      }
+
+      .report-label {
+        font-family: var(--f-mono);
+        font-size: 0.62rem;
+        letter-spacing: 3px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .report-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(2.4rem, 5vw, 4.4rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .report-title span {
+        color: var(--red);
+      }
+
+      .report-subtitle {
+        font-family: var(--f-mono);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 1.3rem;
+      }
+
+      .report-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .meta-box {
+        background: rgba(8, 11, 16, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 0.9rem 1rem;
+        border-radius: 3px;
+      }
+
+      .meta-box strong {
+        display: block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+      }
+
+      .meta-box span {
+        color: var(--secondary);
+        font-size: 0.85rem;
+      }
+
+      .status-done {
+        display: inline-block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: rgba(0, 200, 100, 0.12);
+        color: #4ade80;
+        border: 1px solid rgba(0, 200, 100, 0.25);
+        padding: 3px 10px;
+      }
+
+      .report-card,
+      .side-card {
+        background: var(--surface2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-card::before,
+      .side-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--red), rgba(232, 0, 31, 0.25), transparent);
+      }
+
+      .report-section {
+        margin-bottom: 2.5rem;
+      }
+
+      .report-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .section-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        font-size: 1.45rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #fff;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.28);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-title span {
+        color: var(--red);
+      }
+
+      .report-text {
+        color: var(--secondary);
+        line-height: 1.75;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .report-list {
+        color: var(--secondary);
+        line-height: 1.8;
+        font-size: 0.95rem;
+        padding-left: 1.2rem;
+      }
+
+      .report-list li {
+        margin-bottom: 0.45rem;
+      }
+
+      code {
+        color: #ff5c70;
+        background: rgba(232, 0, 31, 0.1);
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: var(--f-mono);
+        font-size: 0.78rem;
+      }
+
+      .report-img-box {
+        margin: 1.5rem 0;
+        text-align: center;
+      }
+
+      .report-img {
+        width: 100%;
+        max-width: 760px;
+        border-radius: 4px;
+        border: 1px solid rgba(232, 0, 31, 0.22);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+
+      .img-caption {
+        margin-top: 0.65rem;
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1.8px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      .side-card {
+        position: sticky;
+        top: 95px;
+      }
+
+      .side-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .side-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .side-list li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        color: var(--secondary);
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .side-list i {
+        color: #4ade80;
+        margin-top: 0.2rem;
+      }
+
+      /* Tabel */
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.2rem 0;
+        font-size: 0.88rem;
+      }
+
+      .report-table thead tr {
+        background: rgba(232, 0, 31, 0.15);
+        border-bottom: 2px solid rgba(232, 0, 31, 0.35);
+      }
+
+      .report-table th {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        padding: 0.7rem 1rem;
+        text-align: left;
+      }
+
+      .report-table td {
+        color: var(--secondary);
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .report-table tbody tr:hover {
+        background: rgba(232, 0, 31, 0.04);
+      }
+
+      .badge-method {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        background: rgba(232, 0, 31, 0.12);
+        color: #ff5c70;
+        border: 1px solid rgba(232, 0, 31, 0.2);
+        padding: 2px 8px;
+        border-radius: 2px;
+      }
+
+      @media (max-width: 991px) {
+        .nav-hamburger {
+          display: flex;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .side-card {
+          position: static;
+        }
+
+        .report-meta {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .lap-hero-content {
+          padding: 2.5rem 1.5rem 2rem;
+        }
+
+        .report-header {
+          padding: 1.4rem;
+        }
+
+        .report-card,
+        .side-card {
+          padding: 1.2rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-brand-box">RAFI</span>
+          <span class="nav-brand-name">FOLIO</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="portofolio.html">PORTFOLIO</a></li>
+          <li><a href="laporan.html" class="active">LAPORAN</a></li>
+          <li><a href="kontak.html">CONTACT</a></li>
+        </ul>
+
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+      <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="portofolio.html">PORTFOLIO</a>
+      <a href="laporan.html" class="active">LAPORAN</a>
+      <a href="kontak.html">CONTACT</a>
+      <div class="mobile-nav-slash">///</div>
+    </div>
+
+    <!-- HERO -->
+    <section class="lap-hero">
+      <div class="lap-hero-ghost">PRAKTIKUM 07</div>
+      <div class="lap-hero-content">
+        <span class="lap-hero-num">// 07 · PRACTICAL REPORT</span>
+        <h1 class="lap-hero-title">LAPORAN <span>7</span></h1>
+        <p class="lap-hero-sub">Migration, Seeding, Routing, Model, Controller, View</p>
+      </div>
+      <div class="lap-hero-line"></div>
+    </section>
+
+    <!-- ISI LAPORAN -->
+    <section class="report-sec">
+      <div class="container">
+        <a href="laporan.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Kembali ke Laporan
+        </a>
+
+        <div class="report-header">
+          <div class="report-label">// Pemrograman Web</div>
+          <h1 class="report-title">Laporan Praktikum <span>7</span></h1>
+          <p class="report-subtitle">Migration · Seeding · Routing · Model · Controller · View</p>
+
+          <div class="report-meta">
+            <div class="meta-box">
+              <strong>Disusun Oleh</strong>
+              <span>Rafi Haikal Pratama</span>
+            </div>
+            <div class="meta-box">
+              <strong>Tanggal</strong>
+              <span>27 Mei 2026</span>
+            </div>
+            <div class="meta-box">
+              <strong>Status</strong>
+              <span class="status-done">Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="report-card">
+              <p class="report-text">
+                Pada praktikum ke-7 ini, kegiatan difokuskan pada penerapan konsep MVC (Model-View-Controller) secara lebih mendalam menggunakan framework Laravel. Berbeda dari praktikum sebelumnya yang membahas instalasi dan konfigurasi dasar, praktikum ini berfokus pada pengelolaan database menggunakan Migration dan Seeding, pengaturan Routing, serta pembuatan Model, Controller, dan View secara terintegrasi.
+              </p>
+              <p class="report-text">
+                Dalam praktikum ini, mahasiswa mengimplementasikan seluruh komponen utama Laravel untuk membangun aplikasi CRUD (Create, Read, Update, Delete) sederhana. Proses dimulai dari konfigurasi database, pembuatan struktur tabel melalui migration, pengisian data awal menggunakan seeder, hingga menampilkan data ke pengguna melalui Blade Template Engine.
+              </p>
+
+              <!-- SECTION 1 -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.</span> Tujuan Praktikum</h3>
+                <p class="report-text">
+                  Tujuan dari praktikum ini adalah memberikan pemahaman dan keterampilan kepada mahasiswa dalam membangun aplikasi web modern berbasis Laravel dengan menerapkan konsep MVC secara menyeluruh. Mahasiswa diharapkan mampu mengelola database menggunakan migration dan seeding, membuat serta mengatur routing aplikasi, membangun model untuk interaksi data dengan Eloquent ORM, mengembangkan controller sebagai penghubung antara model dan view, serta membuat tampilan antarmuka menggunakan Blade Template Engine.
+                </p>
+              </section>
+
+              <!-- SECTION 2 -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.</span> Hasil & Pembahasan</h3>
+
+                <p class="report-text">
+                  Pada praktikum ini dilakukan beberapa tahapan utama, dimulai dari konfigurasi database, pembuatan migration, seeding data awal, pengaturan routing, pembuatan model dan controller, hingga menampilkan data pada view menggunakan Blade Template.
+                </p>
+
+                <!-- 2.1 Konfigurasi Database -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin-bottom: 0.75rem;">
+                  2.1 Konfigurasi Database
+                </h5>
+                <p class="report-text">
+                  Langkah pertama adalah mengonfigurasi koneksi database pada file <code>.env</code>. Database yang digunakan adalah MySQL dengan nama database <code>praktikum_laravel</code>. Konfigurasi ini memastikan Laravel dapat terhubung ke database lokal melalui XAMPP.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss1.png" alt="Konfigurasi Database .env" class="report-img" />
+                  <p class="img-caption">// Konfigurasi database pada file .env</p>
+                </div>
+
+                <!-- 2.2 Migration -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.2 Migration
+                </h5>
+                <p class="report-text">
+                  Migration digunakan untuk membuat dan mengelola struktur database menggunakan kode program. Tabel <code>products</code> dibuat menggunakan perintah <code>php artisan make:migration create_products_table</code>. File migration yang dihasilkan berada pada folder <code>database/migrations</code> dan berisi definisi kolom seperti <code>name</code>, <code>price</code>, <code>description</code>, dan <code>timestamps</code>.
+                </p>
+                <p class="report-text">
+                  Migration dijalankan menggunakan perintah <code>php artisan migrate</code>, sehingga tabel <code>products</code> terbentuk secara otomatis di database. Untuk membatalkan migration dapat menggunakan <code>php artisan migrate:rollback</code>, sedangkan untuk menjalankan ulang seluruh migration menggunakan <code>php artisan migrate:fresh</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss2.png" alt="Hasil Migration" class="report-img" />
+                  <p class="img-caption">// Hasil perintah php artisan migrate dan tabel terbentuk di database</p>
+                </div>
+
+                <!-- 2.3 Seeding -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.3 Seeding
+                </h5>
+                <p class="report-text">
+                  Seeding digunakan untuk mengisi data awal ke dalam database. Seeder dibuat menggunakan perintah <code>php artisan make:seeder ProductSeeder</code>, lalu file <code>ProductSeeder.php</code> diisi dengan data produk seperti Laptop dan Mouse menggunakan metode <code>DB::table('products')->insert()</code>. Seeder dipanggil melalui file <code>DatabaseSeeder.php</code> dan dijalankan dengan perintah <code>php artisan db:seed</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss3.png" alt="Hasil Seeding" class="report-img" />
+                  <p class="img-caption">// Data hasil seeding pada tabel products di database</p>
+                </div>
+
+                <!-- 2.4 Routing -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.4 Routing
+                </h5>
+                <p class="report-text">
+                  Routing digunakan untuk menentukan URL dan respons yang diberikan aplikasi. Semua konfigurasi routing web berada pada file <code>routes/web.php</code>. Pada praktikum ini digunakan berbagai jenis routing, mulai dari routing dasar, routing parameter, named route, hingga route group. Selain itu digunakan pula Resource Route yang secara otomatis membuat 7 route sekaligus untuk operasi CRUD melalui <code>Route::resource('products', ProductController::class)</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss4.png" alt="Konfigurasi Routing" class="report-img" />
+                  <p class="img-caption">// Konfigurasi routing pada file routes/web.php</p>
+                </div>
+
+                <!-- 2.5 Model -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.5 Model
+                </h5>
+                <p class="report-text">
+                  Model digunakan untuk berinteraksi dengan database. Laravel menggunakan Eloquent ORM yang mempermudah manipulasi data. Model <code>Product</code> dibuat pada file <code>app/Models/Product.php</code> dengan mendefinisikan properti <code>$fillable</code> untuk mengizinkan mass assignment pada kolom <code>name</code>, <code>price</code>, dan <code>description</code>. Operasi CRUD dapat dilakukan menggunakan method seperti <code>Product::create()</code>, <code>Product::all()</code>, <code>Product::find()</code>, <code>update()</code>, dan <code>delete()</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss5.png" alt="Model Product" class="report-img" />
+                  <p class="img-caption">// Struktur model Product dengan Eloquent ORM</p>
+                </div>
+
+                <!-- 2.6 Controller -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.6 Controller
+                </h5>
+                <p class="report-text">
+                  Controller digunakan untuk mengatur logika aplikasi dan menjadi penghubung antara Model dan View. Controller dibuat menggunakan perintah <code>php artisan make:controller ProductController --resource</code>, sehingga menghasilkan file controller dengan 7 method siap pakai. File controller berada di folder <code>app/Http/Controllers</code>. Method <code>index()</code> mengambil semua data produk dari database menggunakan <code>Product::all()</code> dan mengirimkannya ke view menggunakan fungsi <code>compact()</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss6.png" alt="ProductController" class="report-img" />
+                  <p class="img-caption">// Isi ProductController dengan method index mengambil data dari model</p>
+                </div>
+
+                <!-- Tabel Resource Controller -->
+                <p class="report-text">Berikut adalah daftar method pada Resource Controller beserta fungsinya:</p>
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>HTTP Verb</th>
+                      <th>Fungsi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="badge-method">index</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan seluruh data produk</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">create</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan form tambah data</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">store</span></td>
+                      <td>POST</td>
+                      <td>Menyimpan data baru ke database</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">show</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan detail satu data</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">edit</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan form edit data</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">update</span></td>
+                      <td>PUT/PATCH</td>
+                      <td>Mengubah data yang sudah ada</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">destroy</span></td>
+                      <td>DELETE</td>
+                      <td>Menghapus data dari database</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- 2.7 View -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.7 View & Blade Template
+                </h5>
+                <p class="report-text">
+                  View digunakan untuk menampilkan halaman kepada pengguna. Laravel menggunakan Blade Template Engine dengan file berekstensi <code>.blade.php</code> yang disimpan di folder <code>resources/views</code>. Blade Layout memungkinkan pembuatan kerangka tampilan yang dapat digunakan ulang di banyak halaman, sehingga bagian seperti header, navbar, dan footer tidak perlu ditulis berulang. Directive Blade seperti <code>@extends</code>, <code>@section</code>, <code>@yield</code>, dan <code>@foreach</code> digunakan untuk mengelola layout dan menampilkan data secara dinamis.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss7.png" alt="Blade View" class="report-img" />
+                  <p class="img-caption">// Tampilan halaman products menggunakan Blade Template Engine</p>
+                </div>
+
+                <!-- 2.8 Hasil Akhir -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.8 Hasil Akhir Aplikasi CRUD Mahasiswa
+                </h5>
+                <p class="report-text">
+                  Sebagai tugas praktikum, dibangun aplikasi CRUD data mahasiswa menggunakan seluruh komponen yang telah dipelajari. Aplikasi ini memiliki fitur untuk menampilkan daftar mahasiswa, menambahkan data baru, mengedit data yang sudah ada, dan menghapus data. Data mahasiswa terdiri dari kolom <code>nim</code>, <code>nama</code>, <code>jurusan</code>, dan <code>angkatan</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak7/ss8.png" alt="Hasil Akhir CRUD Mahasiswa" class="report-img" />
+                  <p class="img-caption">// Tampilan aplikasi CRUD data mahasiswa hasil praktikum 7</p>
+                </div>
+              </section>
+
+              <!-- SECTION 3 -->
+              <section class="report-section">
+                <h3 class="section-title"><span>3.</span> Kesimpulan</h3>
+                <p class="report-text">
+                  Berdasarkan praktikum yang telah dilakukan, Laravel menyediakan ekosistem yang lengkap untuk membangun aplikasi web secara terstruktur. Migration dan Seeding memudahkan pengelolaan database secara konsisten dan dapat direproduksi, sehingga pengembangan tim menjadi lebih mudah. Eloquent ORM menyederhanakan operasi CRUD tanpa perlu menulis query SQL secara manual.
+                </p>
+                <p class="report-text">
+                  Konsep MVC yang diterapkan Laravel melalui Model, Controller, dan Blade View menciptakan pemisahan tanggung jawab yang jelas antara logika data, logika aplikasi, dan tampilan. Resource Controller dan Resource Route semakin mempercepat proses pengembangan dengan menghasilkan struktur CRUD yang lengkap secara otomatis. Praktikum ini menjadi fondasi penting untuk mempelajari materi Laravel tingkat lanjut seperti autentikasi, middleware, API, dan deployment aplikasi.
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <!-- SIDEBAR -->
+          <div class="col-lg-4">
+            <div class="side-card">
+              <h5 class="side-title">Detail Praktikum</h5>
+              <ul class="side-list">
+                <li><i class="fas fa-check-circle"></i> Konfigurasi Database (.env)</li>
+                <li><i class="fas fa-check-circle"></i> Migration Tabel Products</li>
+                <li><i class="fas fa-check-circle"></i> Seeding Data Awal</li>
+                <li><i class="fas fa-check-circle"></i> Routing (Dasar, Parameter, Named, Group)</li>
+                <li><i class="fas fa-check-circle"></i> Model dengan Eloquent ORM</li>
+                <li><i class="fas fa-check-circle"></i> Resource Controller</li>
+                <li><i class="fas fa-check-circle"></i> Blade Template & Layout</li>
+                <li><i class="fas fa-check-circle"></i> CRUD Data Mahasiswa</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="ft-bottom">
+          <p class="ft-copy">&copy; 2026 RAFI HAIKAL PRATAMA. ALL RIGHTS RESERVED.</p>
+          <div class="ft-built">BUILT WITH PASSION <span class="sl">///</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <a href="#" class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Scroll top
+      const st = document.getElementById("scrollTop");
+      window.addEventListener("scroll", () => {
+        st.classList.toggle("show", window.scrollY > 300);
+      });
+
+      st.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Hamburger
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      const mobileNavClose = document.getElementById("mobileNavClose");
+
+      function toggleMenu() {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+      }
+
+      hamburger.addEventListener("click", toggleMenu);
+      mobileNavClose.addEventListener("click", toggleMenu);
+
+      mobileNav.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileNav.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        }),
+      );
+    </script>
+  </body>
+</html>
