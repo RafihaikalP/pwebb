@@ -1,0 +1,1223 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Laporan Praktikum 9 Rafi Haikal Pratama" />
+    <meta name="author" content="Rafi Haikal Pratama" />
+    <title>Laporan Praktikum 9 | RAFI HAIKAL PRATAMA</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="192x192" href="images/rafilogo-192x192.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+    <!-- CSS mengikuti style global laporan (sama seperti laporan7.html: variabel :root, .site-nav, .lap-hero, .report-*, .side-card, dst) -->
+  </head>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --red: #e8001f;
+        --red-dim: rgba(232, 0, 31, 0.3);
+        --surface: #0d1219;
+        --surface2: #111820;
+        --muted: #5c7896;
+        --secondary: #9aa5b4;
+        --f-display: "Barlow Condensed", sans-serif;
+        --f-mono: "Share Tech Mono", monospace;
+        --f-body: "Barlow", sans-serif;
+      }
+
+      body {
+        background: #080b10;
+        color: #f0f2f5;
+        font-family: var(--f-body);
+        overflow-x: hidden;
+        margin: 0;
+      }
+
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1050;
+        background: rgba(6, 8, 16, 0.96);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(204, 0, 24, 0.28);
+        padding: 0.65rem 0;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+      }
+
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .nav-brand-box {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 0.82rem;
+        letter-spacing: 1px;
+        background: var(--red);
+        color: #fff;
+        padding: 0.22rem 0.55rem;
+        clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 100%, 0 100%);
+      }
+
+      .nav-brand-name {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        padding: 0.45rem 0.9rem;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      .nav-links a.active { color: var(--red); }
+
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.9rem;
+        right: 0.9rem;
+        height: 2px;
+        background: var(--red);
+      }
+
+      .nav-links a:not(.active):hover { color: #fff; }
+
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+        z-index: 1100;
+      }
+
+      .nav-hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+
+      .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+      .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        background: rgba(6, 8, 16, 0.98);
+        backdrop-filter: blur(20px);
+        z-index: 1040;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.2rem;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 3px solid var(--red);
+      }
+
+      .mobile-nav.open { transform: translateX(0); }
+
+      .mobile-nav a {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: 2.4rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        transition: color 0.2s;
+      }
+
+      .mobile-nav a.active,
+      .mobile-nav a:hover { color: var(--red); }
+
+      .mobile-nav-close {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      .mobile-nav-slash {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 1rem;
+        color: rgba(232, 0, 31, 0.4);
+        letter-spacing: -2px;
+        margin-top: 0.5rem;
+      }
+
+      /* HERO */
+      .lap-hero {
+        position: relative;
+        min-height: 36vh;
+        display: flex;
+        align-items: flex-end;
+        padding-top: 70px;
+        overflow: hidden;
+        background: #080b10;
+      }
+
+      .lap-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #080b10 0%, #0e0204 40%, #1a0005 70%, #080b10 100%);
+      }
+
+      .lap-hero-ghost {
+        position: absolute;
+        right: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: clamp(4rem, 14vw, 11rem);
+        color: rgba(255, 255, 255, 0.018);
+        pointer-events: none;
+        line-height: 1;
+        letter-spacing: -4px;
+        user-select: none;
+      }
+
+      .lap-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 3rem 2rem 2.5rem 3rem;
+      }
+
+      .lap-hero-num {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 4px;
+        color: var(--red);
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .lap-hero-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        line-height: 0.88;
+        text-transform: uppercase;
+        color: #fff;
+        margin: 0;
+      }
+
+      .lap-hero-title span { color: var(--red); }
+
+      .lap-hero-sub {
+        font-family: var(--f-mono);
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-top: 1rem;
+      }
+
+      .lap-hero-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--red) 0%, rgba(232, 0, 31, 0.3) 60%, transparent 100%);
+      }
+
+      /* FOOTER */
+      .site-footer {
+        background: #050810;
+        border-top: 1px solid rgba(204, 0, 24, 0.25);
+        padding: 3.5rem 0 1.5rem;
+      }
+
+      .ft-copy, .ft-built {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      .ft-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .ft-built .sl {
+        color: var(--red);
+        letter-spacing: -2px;
+        font-size: 0.8rem;
+      }
+
+      .scroll-top {
+        position: fixed;
+        bottom: 1.7rem;
+        right: 1.7rem;
+        width: 42px;
+        height: 42px;
+        background: #cc0018;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 16px rgba(204, 0, 24, 0.5);
+        transition: transform 0.2s, background 0.2s, opacity 0.3s;
+        z-index: 999;
+        opacity: 0;
+      }
+
+      .scroll-top.show { opacity: 1; }
+      .scroll-top:hover { transform: translateY(-3px); background: var(--red); color: #fff; }
+
+      /* REPORT */
+      .report-sec {
+        padding: 4rem 0;
+        background:
+          radial-gradient(circle at top left, rgba(232, 0, 31, 0.08), transparent 32%),
+          #080b10;
+      }
+
+      .back-link {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-bottom: 1.4rem;
+        transition: gap 0.2s, color 0.2s;
+      }
+
+      .back-link:hover { gap: 0.75rem; color: #ff3350; }
+
+      .report-header {
+        background: linear-gradient(135deg, rgba(17, 24, 32, 0.98), rgba(13, 18, 25, 0.96));
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        border-radius: 4px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(232, 0, 31, 0.16), transparent 45%);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .report-header > * { position: relative; z-index: 2; }
+
+      .report-label {
+        font-family: var(--f-mono);
+        font-size: 0.62rem;
+        letter-spacing: 3px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .report-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(2.4rem, 5vw, 4.4rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .report-title span { color: var(--red); }
+
+      .report-subtitle {
+        font-family: var(--f-mono);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 1.3rem;
+      }
+
+      .report-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .meta-box {
+        background: rgba(8, 11, 16, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 0.9rem 1rem;
+        border-radius: 3px;
+      }
+
+      .meta-box strong {
+        display: block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+      }
+
+      .meta-box span { color: var(--secondary); font-size: 0.85rem; }
+
+      .status-done {
+        display: inline-block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: rgba(0, 200, 100, 0.12);
+        color: #4ade80;
+        border: 1px solid rgba(0, 200, 100, 0.25);
+        padding: 3px 10px;
+      }
+
+      .report-card, .side-card {
+        background: var(--surface2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-card::before, .side-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--red), rgba(232, 0, 31, 0.25), transparent);
+      }
+
+      .report-section { margin-bottom: 2.5rem; }
+      .report-section:last-child { margin-bottom: 0; }
+
+      .section-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        font-size: 1.45rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #fff;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.28);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-title span { color: var(--red); }
+
+      .sub-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--red);
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin: 1.5rem 0 0.75rem;
+      }
+
+      .sub-title:first-of-type { margin-top: 0; }
+
+      .report-text {
+        color: var(--secondary);
+        line-height: 1.75;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .report-list {
+        color: var(--secondary);
+        line-height: 1.8;
+        font-size: 0.95rem;
+        padding-left: 1.2rem;
+      }
+
+      .report-list li { margin-bottom: 0.45rem; }
+
+      code {
+        color: #ff5c70;
+        background: rgba(232, 0, 31, 0.1);
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: var(--f-mono);
+        font-size: 0.78rem;
+      }
+
+      .report-img-box { margin: 1.5rem 0; text-align: center; }
+
+      .report-img {
+        width: 100%;
+        max-width: 760px;
+        border-radius: 4px;
+        border: 1px solid rgba(232, 0, 31, 0.22);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+
+      .img-caption {
+        margin-top: 0.65rem;
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1.8px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      /* ERD diagram boxes */
+      .erd-wrap {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin: 1.5rem 0;
+        align-items: flex-start;
+      }
+
+      .erd-entity {
+        background: rgba(8, 11, 16, 0.85);
+        border: 1px solid rgba(232, 0, 31, 0.3);
+        border-radius: 4px;
+        overflow: hidden;
+        min-width: 180px;
+        flex: 1;
+      }
+
+      .erd-entity-header {
+        background: rgba(232, 0, 31, 0.18);
+        padding: 0.5rem 1rem;
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        text-align: center;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.25);
+      }
+
+      .erd-row {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.3rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 0.78rem;
+        align-items: center;
+      }
+
+      .erd-row:last-child { border-bottom: none; }
+
+      .erd-type {
+        font-family: var(--f-mono);
+        color: var(--muted);
+        font-size: 0.62rem;
+        min-width: 52px;
+      }
+
+      .erd-col { color: var(--secondary); flex: 1; }
+
+      .erd-badge {
+        font-family: var(--f-mono);
+        font-size: 0.5rem;
+        letter-spacing: 1px;
+        padding: 1px 6px;
+        border-radius: 2px;
+      }
+
+      .erd-pk { background: rgba(232, 0, 31, 0.15); color: #ff5c70; border: 1px solid rgba(232, 0, 31, 0.25); }
+      .erd-fk { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+      .erd-uk { background: rgba(250, 204, 21, 0.1); color: #fcd34d; border: 1px solid rgba(250, 204, 21, 0.2); }
+
+      .erd-connector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 0 0.5rem;
+        color: var(--muted);
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: center;
+        min-width: 70px;
+      }
+
+      .erd-connector i { color: rgba(232, 0, 31, 0.5); font-size: 1rem; }
+
+      /* Tabel */
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.2rem 0;
+        font-size: 0.88rem;
+      }
+
+      .report-table thead tr {
+        background: rgba(232, 0, 31, 0.15);
+        border-bottom: 2px solid rgba(232, 0, 31, 0.35);
+      }
+
+      .report-table th {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        padding: 0.7rem 1rem;
+        text-align: left;
+      }
+
+      .report-table td {
+        color: var(--secondary);
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .report-table tbody tr:hover { background: rgba(232, 0, 31, 0.04); }
+
+      .badge-rel {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1px;
+        padding: 2px 8px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+
+      .badge-otm { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+      .badge-mto { background: rgba(250, 204, 21, 0.1); color: #fcd34d; border: 1px solid rgba(250, 204, 21, 0.18); }
+      .badge-mtm { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.2); }
+
+      .badge-method {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        background: rgba(232, 0, 31, 0.12);
+        color: #ff5c70;
+        border: 1px solid rgba(232, 0, 31, 0.2);
+        padding: 2px 8px;
+        border-radius: 2px;
+      }
+
+      /* Side card */
+      .side-card { position: sticky; top: 95px; }
+
+      .side-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .side-list { list-style: none; padding: 0; margin: 0; }
+
+      .side-list li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        color: var(--secondary);
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .side-list i { color: #4ade80; margin-top: 0.2rem; }
+
+      .side-divider {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        margin: 1.2rem 0;
+      }
+
+      .side-label {
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .rel-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        border-radius: 2px;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+
+      .rel-pill-otm { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.18); }
+      .rel-pill-mtm { background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.18); }
+
+      @media (max-width: 991px) {
+        .nav-hamburger { display: flex; }
+        .nav-links { display: none; }
+        .side-card { position: static; }
+        .report-meta { grid-template-columns: 1fr; }
+        .erd-connector { min-width: 40px; }
+      }
+
+      @media (max-width: 768px) {
+        .lap-hero-content { padding: 2.5rem 1.5rem 2rem; }
+        .report-header { padding: 1.4rem; }
+        .report-card, .side-card { padding: 1.2rem; }
+        .erd-wrap { flex-direction: column; }
+        .erd-connector { flex-direction: row; padding: 0.5rem 0; }
+      }
+    </style>
+  </head>
+
+
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-brand-box">RAFI</span>
+          <span class="nav-brand-name">FOLIO</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="portofolio.html">PORTFOLIO</a></li>
+          <li><a href="laporan.html" class="active">LAPORAN</a></li>
+          <li><a href="kontak.html">CONTACT</a></li>
+        </ul>
+
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+      <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="portofolio.html">PORTFOLIO</a>
+      <a href="laporan.html" class="active">LAPORAN</a>
+      <a href="kontak.html">CONTACT</a>
+      <div class="mobile-nav-slash">///</div>
+    </div>
+
+    <!-- HERO -->
+    <section class="lap-hero">
+      <div class="lap-hero-ghost">PRAKTIKUM 09</div>
+      <div class="lap-hero-content">
+        <span class="lap-hero-num">// 09 · PRACTICAL REPORT</span>
+        <h1 class="lap-hero-title">LAPORAN <span>9</span></h1>
+        <p class="lap-hero-sub">Authentication, Custom Table Users & Templating SB Admin 2</p>
+      </div>
+      <div class="lap-hero-line"></div>
+    </section>
+
+    <!-- ISI LAPORAN -->
+    <section class="report-sec">
+      <div class="container">
+        <a href="laporan.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Kembali ke Laporan
+        </a>
+
+        <div class="report-header">
+          <div class="report-label">// Pemrograman Web</div>
+          <h1 class="report-title">Laporan Praktikum <span>9</span></h1>
+          <p class="report-subtitle">Setup Project · Authentication · Custom Table · Seeding · SB Admin 2 · CRUD Users</p>
+
+          <div class="report-meta">
+            <div class="meta-box">
+              <strong>Disusun Oleh</strong>
+              <span>Rafi Haikal Pratama</span>
+            </div>
+            <div class="meta-box">
+              <strong>Tanggal</strong>
+              <span>10 Juni 2026</span>
+            </div>
+            <div class="meta-box">
+              <strong>Status</strong>
+              <span class="status-done">Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="report-card">
+              <p class="report-text">
+                Praktikum ke-9 ini merupakan praktikum studi kasus pembangunan aplikasi <strong>Sistem Informasi Sekolah (Sisfo)</strong> menggunakan Laravel 9. Berbeda dengan praktikum-praktikum sebelumnya yang membahas konsep MVC dan relasi antar tabel secara terpisah, pada praktikum ini seluruh konsep tersebut digabungkan dalam satu studi kasus utuh, mulai dari pembuatan project baru, konfigurasi database, penerapan fitur autentikasi bawaan Laravel, kustomisasi tabel <code>users</code>, hingga integrasi template admin SB Admin 2 dan pembuatan modul manajemen pengguna secara CRUD.
+              </p>
+              <p class="report-text">
+                Fokus utama praktikum ini adalah memahami bagaimana Laravel menyediakan fitur autentikasi siap pakai melalui package <code>laravel/ui</code>, bagaimana struktur tabel <code>users</code> bawaan dapat disesuaikan dengan kebutuhan aplikasi melalui migration tambahan, serta bagaimana tampilan aplikasi dapat diseragamkan menggunakan Blade Layout yang mengadopsi template open-source <strong>SB Admin 2</strong>.
+              </p>
+
+              <!-- SECTION 1 -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.</span> Tujuan Praktikum</h3>
+                <p class="report-text">
+                  Tujuan dari praktikum ini adalah agar mahasiswa mampu membuat project Laravel baru untuk studi kasus aplikasi Sisfo dan melakukan konfigurasi koneksi database melalui file <code>.env</code>. Mahasiswa juga diharapkan mampu menerapkan fitur autentikasi bawaan Laravel menggunakan package <code>laravel/ui</code> dengan tampilan Bootstrap, melakukan kustomisasi struktur tabel <code>users</code> melalui migration tambahan, serta menggunakan fitur seeding untuk membuat data pengguna admin secara otomatis.
+                </p>
+                <p class="report-text">
+                  Selain itu, mahasiswa diharapkan mampu mengintegrasikan template admin pihak ketiga (SB Admin 2) ke dalam aplikasi Laravel menggunakan konsep Blade Layout (<code>@extends</code>, <code>@yield</code>, <code>@section</code>, dan <code>@include</code>), serta mampu membangun fitur manajemen data pengguna secara lengkap (Create, Read, Update, Delete) menggunakan Resource Controller dan Resource Route.
+                </p>
+              </section>
+
+              <!-- SECTION 2 -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.</span> Hasil & Pembahasan</h3>
+
+                <p class="report-text">
+                  Pada praktikum ini dilakukan beberapa tahapan utama, dimulai dari pembuatan project Laravel baru, konfigurasi database, instalasi scaffolding autentikasi menggunakan <code>laravel/ui</code>, kustomisasi tabel <code>users</code> beserta seeding data admin, integrasi template SB Admin 2 sebagai tampilan utama aplikasi, hingga pembuatan modul manajemen users secara CRUD lengkap beserta penambahan menu navigasinya.
+                </p>
+
+                <!-- 2.1 Pembuatan Project -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin-bottom: 0.75rem;">
+                  2.1 Pembuatan Project Laravel "Laravel-sisfo"
+                </h5>
+                <p class="report-text">
+                  Langkah pertama adalah membuat project Laravel baru dengan nama <code>laravel-sisfo</code>. Terdapat dua cara yang dapat digunakan, yaitu melalui Laravel Installer global atau menggunakan Composer. Pada cara pertama, package installer dipasang secara global dengan perintah <code>composer global require "laravel/installer"</code>, kemudian project dibuat dengan perintah <code>laravel new laravel-sisfo</code> di dalam folder <code>htdocs</code>. Cara kedua dapat dilakukan langsung tanpa installer global menggunakan perintah <code>composer create-project laravel/laravel=^9.0 laravel-sisfo --prefer-dist</code>.
+                </p>
+                <p class="report-text">
+                  Setelah proses instalasi selesai, project dijalankan menggunakan perintah <code>php artisan serve</code> sehingga aplikasi dapat diakses melalui browser pada alamat <code>http://127.0.0.1:8000</code> dan menampilkan halaman selamat datang (welcome page) bawaan Laravel sebagai indikasi bahwa instalasi berhasil dilakukan.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss1.png" alt="Tampilan Awal Project Laravel-sisfo" class="report-img" />
+                  <p class="img-caption">// Tampilan halaman utama Laravel setelah project laravel-sisfo berhasil dibuat</p>
+                </div>
+
+                <!-- 2.2 Konfigurasi Database -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.2 Konfigurasi Database
+                </h5>
+                <p class="report-text">
+                  Konfigurasi koneksi database dilakukan pada file <code>.env</code> yang terletak di root project. Database yang digunakan adalah MySQL melalui XAMPP dengan nama database <code>laravel_sisfo</code>. Beberapa variabel yang diatur antara lain <code>DB_CONNECTION=mysql</code>, <code>DB_HOST=127.0.0.1</code>, <code>DB_PORT=3306</code>, <code>DB_DATABASE=laravel_sisfo</code>, <code>DB_USERNAME=root</code>, dan <code>DB_PASSWORD</code> dikosongkan sesuai konfigurasi default MySQL pada XAMPP.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss2.png" alt="Konfigurasi Database .env" class="report-img" />
+                  <p class="img-caption">// Konfigurasi koneksi database laravel_sisfo pada file .env</p>
+                </div>
+
+                <!-- 2.3 Laravel UI & Scaffolding Auth -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.3 Instalasi Laravel UI & Scaffolding Autentikasi Bootstrap
+                </h5>
+                <p class="report-text">
+                  Fitur autentikasi pada studi kasus ini menggunakan fitur autentikasi bawaan Laravel melalui package <code>laravel/ui</code>. Package ini dipasang dengan menjalankan perintah <code>composer require laravel/ui</code> pada terminal. Setelah package terpasang, scaffolding autentikasi berbasis Bootstrap dibuat dengan menjalankan perintah <code>php artisan ui bootstrap --auth</code>.
+                </p>
+                <p class="report-text">
+                  Perintah tersebut secara otomatis men-generate seluruh komponen autentikasi pada folder <code>app/Http/Controllers/Auth</code> beserta view pada folder <code>resources/views/auth</code> dan layout <code>app.blade.php</code>. Beberapa controller yang dihasilkan antara lain:
+                </p>
+                <ul class="report-list">
+                  <li><code>LoginController.php</code> — menangani proses autentikasi login pengguna.</li>
+                  <li><code>RegisterController.php</code> — menangani proses pendaftaran akun baru.</li>
+                  <li><code>ForgotPasswordController.php</code> dan <code>ResetPasswordController.php</code> — menangani permintaan dan proses reset password.</li>
+                  <li><code>VerificationController.php</code> — menangani verifikasi email pengguna.</li>
+                </ul>
+                <p class="report-text">
+                  Tahap selanjutnya adalah menjalankan perintah <code>npm install && npm run dev</code> untuk menginstall dan melakukan compile terhadap seluruh asset front-end yang dibutuhkan oleh tampilan autentikasi.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss3.png" alt="Instalasi Laravel UI dan Scaffolding Auth" class="report-img" />
+                  <p class="img-caption">// Hasil composer require laravel/ui dan php artisan ui bootstrap --auth</p>
+                </div>
+
+                <!-- 2.4 Migration & Login/Register -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.4 Migration Awal & Pengujian Halaman Login/Register
+                </h5>
+                <p class="report-text">
+                  Setelah scaffolding autentikasi terpasang, tabel-tabel yang dibutuhkan untuk proses autentikasi dibuat dengan menjalankan perintah <code>php artisan migrate</code>. Apabila database <code>laravel_sisfo</code> belum tersedia, Laravel akan menampilkan konfirmasi untuk membuatkan database tersebut secara otomatis. Migration ini membentuk tabel <code>users</code>, <code>password_resets</code>, <code>failed_jobs</code>, dan <code>personal_access_tokens</code>.
+                </p>
+                <p class="report-text">
+                  Setelah migration berhasil, halaman login dapat diakses melalui URL <code>http://127.0.0.1:8000/login</code> dan halaman register melalui <code>http://127.0.0.1:8000/register</code>, keduanya menggunakan tampilan Bootstrap bawaan hasil scaffolding. Setelah melakukan registrasi dan login, pengguna diarahkan ke halaman dashboard yang menampilkan pesan "You are logged in!" sebagai tanda bahwa proses autentikasi berjalan dengan baik.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss4.png" alt="Halaman Login dan Register Bawaan Laravel" class="report-img" />
+                  <p class="img-caption">// Halaman login, register, dan dashboard bawaan hasil scaffolding laravel/ui</p>
+                </div>
+
+                <!-- 2.5 Custom Table Users -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.5 Custom Migration Tabel Users
+                </h5>
+                <p class="report-text">
+                  Secara default, tabel <code>users</code> hasil autentikasi Laravel hanya memiliki kolom <code>id</code>, <code>name</code>, <code>email</code>, <code>email_verified_at</code>, <code>password</code>, <code>remember_token</code>, <code>created_at</code>, dan <code>updated_at</code>. Untuk kebutuhan aplikasi Sisfo, struktur tabel ini perlu ditambah. Penambahan kolom pada tabel yang sudah ada dilakukan melalui migration tambahan menggunakan perintah <code>php artisan make:migration costum_table_users</code>.
+                </p>
+                <p class="report-text">
+                  Pada method <code>up()</code> file migration tersebut, digunakan <code>Schema::table('users', ...)</code> untuk menambahkan tiga kolom baru:
+                </p>
+                <ul class="report-list">
+                  <li><code>username</code> — string, unik, digunakan sebagai identitas login alternatif selain email.</li>
+                  <li><code>level</code> — string yang menyimpan data peran pengguna (dalam format JSON), misalnya ADMIN, GURU, atau STAFF.</li>
+                  <li><code>status</code> — enum dengan pilihan <code>ACTIVE</code> dan <code>INACTIVE</code> untuk menandai status aktif tidaknya akun.</li>
+                </ul>
+                <p class="report-text">
+                  Method <code>down()</code> diisi dengan perintah <code>dropColumn</code> untuk masing-masing kolom tersebut sebagai mekanisme rollback. Setelah file migration disimpan, perintah <code>php artisan migrate</code> dijalankan kembali sehingga struktur tabel <code>users</code> bertambah menjadi 11 kolom.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss5.png" alt="Struktur Custom Tabel Users" class="report-img" />
+                  <p class="img-caption">// Struktur tabel users setelah ditambahkan kolom username, level, dan status</p>
+                </div>
+
+                <!-- 2.6 Seeding -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.6 Seeding Data User Admin
+                </h5>
+                <p class="report-text">
+                  Setelah struktur tabel <code>users</code> disesuaikan, langkah selanjutnya adalah membuat data pengguna awal berupa akun admin menggunakan fitur seeding. Seeder dibuat dengan perintah <code>php artisan make:seeder AdminSeeder</code> yang menghasilkan file <code>AdminSeeder.php</code> pada folder <code>database/seeders</code>. Pada method <code>run()</code>, dibuat instance baru dari model <code>\App\Models\User</code> dengan mengisi atribut <code>username</code> bernilai <code>"admin"</code>, <code>name</code> bernilai <code>"Admin Aplikasi"</code>, <code>email</code> bernilai <code>"admin@sisfo.com"</code>, <code>level</code> diisi dengan <code>json_encode(["ADMIN"])</code>, dan <code>password</code> di-hash menggunakan <code>Hash::make("12345678")</code>.
+                </p>
+                <p class="report-text">
+                  Seeder dijalankan menggunakan perintah <code>php artisan db:seed --class=AdminSeeder</code>. Setelah proses seeding berhasil, akun admin dapat digunakan untuk login ke aplikasi menggunakan email <code>admin@sisfo.com</code> dan password <code>12345678</code>, sehingga pada halaman dashboard akan tampil nama "Admin Aplikasi" pada bagian kanan atas.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss6.png" alt="Hasil Seeding Admin dan Login" class="report-img" />
+                  <p class="img-caption">// Hasil seeding AdminSeeder dan login berhasil menggunakan akun admin</p>
+                </div>
+
+                <!-- 2.7 SB Admin 2 Login -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.7 Integrasi Template SB Admin 2 pada Halaman Login
+                </h5>
+                <p class="report-text">
+                  Tahap selanjutnya adalah mengganti tampilan aplikasi menggunakan template admin <strong>SB Admin 2</strong> berbasis Bootstrap. Template diunduh dari <code>startbootstrap.com/theme/sb-admin-2</code>, kemudian seluruh asset hasil ekstraksi disalin ke dalam folder baru <code>public/sbadmin</code> agar dapat diakses melalui helper <code>asset()</code>.
+                </p>
+                <p class="report-text">
+                  File <code>resources/views/layouts/app.blade.php</code> yang sebelumnya digunakan untuk halaman login bawaan, diubah strukturnya mengikuti tampilan SB Admin 2. Pada bagian <code>head</code> ditambahkan referensi ke <code>sbadmin/vendor/fontawesomefree/css/all.min.css</code>, font Nunito dari Google Fonts, dan stylesheet utama <code>sbadmin/css/sb-admin-2.min.css</code>. Pada bagian <code>body</code> digunakan class <code>bg-gradient-primary</code> dengan kartu (card) berisi form login yang tetap mempertahankan struktur <code>@csrf</code>, <code>route('login')</code>, serta validasi <code>@error</code> dari Laravel.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss7.png" alt="Halaman Login dengan Template SB Admin 2" class="report-img" />
+                  <p class="img-caption">// Halaman login setelah diintegrasikan dengan template SB Admin 2</p>
+                </div>
+
+                <!-- 2.8 Layout Global -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.8 Layout Global, Sidebar, dan Topbar
+                </h5>
+                <p class="report-text">
+                  Karena <code>app.blade.php</code> sudah dikhususkan untuk halaman login, dibuat file layout baru bernama <code>main.blade.php</code> pada folder <code>resources/views/layouts</code> yang menjadi layout utama seluruh halaman aplikasi setelah pengguna login. Layout ini memuat struktur <code>#wrapper</code> dan <code>#content-wrapper</code> dari SB Admin 2, serta menggunakan <code>@include('layouts.sidebar')</code> dan <code>@include('layouts.topbar')</code> untuk memecah komponen sidebar dan topbar menjadi file tersendiri. Judul halaman ditampilkan melalui <code>@yield('judul')</code> dan konten utama melalui <code>@yield('konten')</code>.
+                </p>
+                <p class="report-text">
+                  File <code>sidebar.blade.php</code> berisi menu navigasi dengan brand aplikasi "SISFO" beserta menu Dashboard, sedangkan <code>topbar.blade.php</code> menampilkan nama pengguna yang sedang login melalui <code>Auth::user()->name</code> beserta dropdown menu Profile, Settings, dan Logout. Tombol Logout terhubung dengan modal konfirmasi berisi form <code>POST</code> menuju route <code>logout</code>. Sebagai contoh penerapan, file <code>home.blade.php</code> diubah menjadi <code>@extends('layouts.main')</code> dengan <code>@section('judul')</code> bernilai "Dashboard" dan <code>@section('konten')</code> menampilkan teks dashboard.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss8.png" alt="Layout Utama dengan Sidebar dan Topbar SB Admin 2" class="report-img" />
+                  <p class="img-caption">// Tampilan dashboard menggunakan layout main.blade.php beserta sidebar dan topbar SB Admin 2</p>
+                </div>
+
+                <!-- 2.9 Resource Controller & Routing -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.9 Resource Controller & Routing Manajemen Users
+                </h5>
+                <p class="report-text">
+                  Fitur manajemen pengguna dibangun menggunakan konsep CRUD secara penuh, sehingga controller dibuat dalam bentuk Resource Controller melalui perintah <code>php artisan make:controller UserController --resource</code>. Perintah ini menghasilkan satu file controller berisi tujuh method standar yang siap diisi logikanya. Selanjutnya, pada file <code>routes/web.php</code> ditambahkan baris <code>use App\Http\Controllers\UserController;</code> dan didaftarkan satu baris route resource yaitu <code>Route::resource('users', UserController::class)</code>.
+                </p>
+                <p class="report-text">
+                  Satu baris route resource tersebut secara otomatis memetakan tujuh route berbeda, yang dapat diverifikasi melalui perintah <code>php artisan route:list</code>. Berikut adalah ketujuh method pada Resource Controller beserta HTTP verb dan fungsinya:
+                </p>
+
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>Method</th>
+                      <th>HTTP Verb</th>
+                      <th>Fungsi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="badge-method">index</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan seluruh data users</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">create</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan form tambah user</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">store</span></td>
+                      <td>POST</td>
+                      <td>Menyimpan data user baru</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">show</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan detail satu user</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">edit</span></td>
+                      <td>GET</td>
+                      <td>Menampilkan form edit user</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">update</span></td>
+                      <td>PUT/PATCH</td>
+                      <td>Mengubah data user yang sudah ada</td>
+                    </tr>
+                    <tr>
+                      <td><span class="badge-method">destroy</span></td>
+                      <td>DELETE</td>
+                      <td>Menghapus data user</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- 2.10 CRUD - Create -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.10 CRUD Users — Create (Tambah Data User)
+                </h5>
+                <p class="report-text">
+                  Pada method <code>create()</code>, controller mengembalikan <code>view('user.create')</code> yang berisi form input data user. Form ini dibangun dengan <code>@extends('layouts.main')</code> dan terdiri dari input <code>nama</code>, <code>email</code>, <code>username</code>, <code>password</code>, serta dropdown <code>level[]</code> yang bersifat multiple menggunakan library <strong>Select2</strong> dengan pilihan <code>ADMIN</code>, <code>GURU</code>, dan <code>STAFF</code>. Library Select2 ditambahkan melalui CDN beserta script inisialisasi pada layout <code>main.blade.php</code> agar dapat digunakan pada seluruh halaman.
+                </p>
+                <p class="report-text">
+                  Form dikirim menggunakan method <code>POST</code> menuju route <code>users.store</code>. Pada method <code>store(Request $request)</code>, dibuat instance baru model <code>User</code>, kemudian setiap field diisi dari <code>$request->get()</code>: <code>name</code>, <code>username</code>, dan <code>email</code> diisi langsung, <code>password</code> diisi menggunakan <code>Hash::make()</code>, sedangkan <code>level</code> yang berupa array diubah menjadi string JSON melalui <code>json_encode()</code> sebelum disimpan dengan <code>$user->save()</code>. Setelah berhasil, pengguna diarahkan kembali ke <code>users.index</code> dengan membawa pesan session <code>status</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss9.png" alt="Form Tambah User" class="report-img" />
+                  <p class="img-caption">// Form Create User dengan input nama, email, username, password, dan level (Select2)</p>
+                </div>
+
+                <!-- 2.11 CRUD - Read -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.11 CRUD Users — Read (Menampilkan Daftar User)
+                </h5>
+                <p class="report-text">
+                  Pada method <code>index()</code>, seluruh data user diambil menggunakan <code>User::all()</code> dan dikirimkan ke view <code>users.index</code>. View ini menampilkan data dalam bentuk tabel dengan kolom <code>Name</code>, <code>Username</code>, <code>Email</code>, dan <code>Action</code> menggunakan perulangan <code>@foreach($users as $user)</code>. Apabila terdapat session <code>status</code> (misalnya setelah menambah, mengubah, atau menghapus data), akan ditampilkan notifikasi <code>alert alert-success</code> pada bagian atas tabel.
+                </p>
+                <p class="report-text">
+                  Tabel data dilengkapi dengan plugin <strong>DataTables</strong> agar mendukung fitur pencarian dan pagination, dengan menambahkan file <code>dataTables.bootstrap4.min.css</code> pada bagian head serta <code>jquery.dataTables.min.js</code>, <code>dataTables.bootstrap4.min.js</code>, dan <code>datatables-demo.js</code> pada bagian akhir layout <code>main.blade.php</code>. Pada bagian atas tabel ditambahkan tombol "Tambah User" yang mengarah ke route <code>users.create</code> untuk membuka form penambahan data baru.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss10.png" alt="Daftar Data Users" class="report-img" />
+                  <p class="img-caption">// Daftar data users menggunakan DataTables beserta tombol Tambah User</p>
+                </div>
+
+                <!-- 2.12 CRUD - Update -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.12 CRUD Users — Update (Edit Data User)
+                </h5>
+                <p class="report-text">
+                  Proses update dimulai dengan menambahkan tombol <strong>Edit</strong> pada kolom Action di <code>users.index</code> yang mengarah ke <code>route('users.edit', $user->id)</code>. Pada method <code>edit($id)</code>, data user diambil menggunakan <code>User::findOrFail($id)</code> dan dikirim ke view <code>user.edit</code>. View ini menampilkan form yang sudah terisi (pre-filled) dengan data user terpilih, termasuk dropdown <code>level[]</code> yang menampilkan opsi terpilih menggunakan kombinasi <code>in_array()</code> dan <code>json_decode($user->level)</code>.
+                </p>
+                <p class="report-text">
+                  Form edit menggunakan method <code>POST</code> dengan input tersembunyi <code>_method</code> bernilai <code>PUT</code> menuju route <code>users.update</code>. Pada method <code>update(Request $request, $id)</code>, data user dicari kembali dengan <code>findOrFail($id)</code>, kemudian field <code>name</code> dan <code>level</code> (di-encode ulang ke JSON) diperbarui dan disimpan dengan <code>save()</code>. Setelah berhasil, pengguna diarahkan kembali ke <code>users.index</code> dengan pesan session "User berhasil diubah".
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss11.png" alt="Form Edit User dan Hasil Update" class="report-img" />
+                  <p class="img-caption">// Form Edit User beserta notifikasi setelah data berhasil diubah</p>
+                </div>
+
+                <!-- 2.13 CRUD - Delete -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.13 CRUD Users — Delete (Hapus Data User)
+                </h5>
+                <p class="report-text">
+                  Tombol <strong>Hapus</strong> ditambahkan pada kolom Action di <code>users.index</code> dalam bentuk form dengan atribut <code>onsubmit="return confirm('Hapus data user ?')"</code> agar memunculkan dialog konfirmasi sebelum data benar-benar dihapus. Form ini menggunakan method <code>POST</code> dengan input tersembunyi <code>_method</code> bernilai <code>DELETE</code> menuju route <code>users.destroy</code>, disertai token <code>@csrf</code>.
+                </p>
+                <p class="report-text">
+                  Pada method <code>destroy($id)</code>, data user dicari menggunakan <code>findOrFail($id)</code> kemudian dihapus dari database melalui <code>$user->delete()</code>. Setelah proses berhasil, pengguna diarahkan kembali ke <code>users.index</code> dengan pesan session "User berhasil dihapus", sehingga data yang dihapus tidak lagi muncul pada tabel daftar user.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss12.png" alt="Konfirmasi dan Hasil Hapus User" class="report-img" />
+                  <p class="img-caption">// Dialog konfirmasi hapus dan notifikasi setelah data user berhasil dihapus</p>
+                </div>
+
+                <!-- 2.14 Menu Users -->
+                <h5 style="font-family: var(--f-display); font-weight: 800; letter-spacing: 1px; color: var(--red); font-size: 1rem; text-transform: uppercase; margin: 1.5rem 0 0.75rem;">
+                  2.14 Menambahkan Menu Users pada Sidebar
+                </h5>
+                <p class="report-text">
+                  Sebagai langkah terakhir, menu navigasi untuk fitur manajemen users ditambahkan pada file <code>layouts/sidebar.blade.php</code>. Sebuah item navigasi baru ditambahkan dengan <code>href="{{ route('users.index') }}"</code>, ikon <code>fas fa-users</code>, dan label "Users". Dengan demikian, menu Users tampil di bawah menu Dashboard pada sidebar SB Admin 2 dan dapat digunakan untuk mengakses halaman daftar pengguna secara langsung dari navigasi utama aplikasi.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/laprak9/ss13.png" alt="Menu Users pada Sidebar" class="report-img" />
+                  <p class="img-caption">// Sidebar SISFO menampilkan menu Dashboard dan Users setelah konfigurasi selesai</p>
+                </div>
+              </section>
+
+              <!-- SECTION 3 -->
+              <section class="report-section">
+                <h3 class="section-title"><span>3.</span> Kesimpulan</h3>
+                <p class="report-text">
+                  Berdasarkan praktikum yang telah dilakukan, package <code>laravel/ui</code> beserta perintah <code>php artisan ui bootstrap --auth</code> sangat mempermudah pembuatan sistem autentikasi lengkap, karena seluruh controller, view, dan route terkait login, register, dan reset password dibuat secara otomatis. Fitur migration tidak hanya digunakan untuk membuat tabel baru, tetapi juga dapat digunakan untuk memodifikasi struktur tabel yang sudah ada melalui <code>Schema::table()</code>, sebagaimana diterapkan pada penambahan kolom <code>username</code>, <code>level</code>, dan <code>status</code> pada tabel <code>users</code>.
+                </p>
+                <p class="report-text">
+                  Fitur seeding terbukti efektif untuk menyediakan data awal berupa akun admin yang konsisten dan dapat direproduksi pada setiap instalasi ulang aplikasi. Penerapan Blade Layout melalui <code>@extends</code>, <code>@yield</code>, <code>@section</code>, dan <code>@include</code> memungkinkan template eksternal seperti SB Admin 2 diintegrasikan secara rapi, dengan pemisahan antara layout untuk halaman autentikasi (<code>app.blade.php</code>) dan layout utama aplikasi (<code>main.blade.php</code>) yang memuat sidebar dan topbar.
+                </p>
+                <p class="report-text">
+                  Penggunaan Resource Controller bersama <code>Route::resource()</code> sangat mempercepat pengembangan fitur CRUD karena tujuh route standar (index, create, store, show, edit, update, destroy) dapat didefinisikan hanya dalam satu baris kode. Secara keseluruhan, kombinasi autentikasi, kustomisasi tabel users dengan kolom level, tampilan SB Admin 2, dan modul manajemen users hasil praktikum ini menjadi fondasi arsitektur aplikasi Sisfo yang siap dikembangkan lebih lanjut dengan modul-modul lain seperti data siswa, guru, dan kelas.
+                </p>
+              </section>
+            </div>
+          </div>
+
+          <!-- SIDEBAR -->
+          <div class="col-lg-4">
+            <div class="side-card">
+              <h5 class="side-title">Detail Praktikum</h5>
+              <ul class="side-list">
+                <li><i class="fas fa-check-circle"></i> Setup Project Laravel-sisfo</li>
+                <li><i class="fas fa-check-circle"></i> Konfigurasi Database (.env)</li>
+                <li><i class="fas fa-check-circle"></i> Scaffolding Autentikasi laravel/ui</li>
+                <li><i class="fas fa-check-circle"></i> Migration & Halaman Login/Register</li>
+                <li><i class="fas fa-check-circle"></i> Custom Migration Tabel Users</li>
+                <li><i class="fas fa-check-circle"></i> Seeding Akun Admin</li>
+                <li><i class="fas fa-check-circle"></i> Integrasi Template SB Admin 2</li>
+                <li><i class="fas fa-check-circle"></i> Layout Utama: Sidebar & Topbar</li>
+                <li><i class="fas fa-check-circle"></i> Resource Controller & Routing Users</li>
+                <li><i class="fas fa-check-circle"></i> CRUD Lengkap Data Users</li>
+                <li><i class="fas fa-check-circle"></i> Menu Users pada Sidebar</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="ft-bottom">
+          <p class="ft-copy">&copy; 2026 RAFI HAIKAL PRATAMA. ALL RIGHTS RESERVED.</p>
+          <div class="ft-built">BUILT WITH PASSION <span class="sl">///</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <a href="#" class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Scroll top
+      const st = document.getElementById("scrollTop");
+      window.addEventListener("scroll", () => {
+        st.classList.toggle("show", window.scrollY > 300);
+      });
+
+      st.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Hamburger
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      const mobileNavClose = document.getElementById("mobileNavClose");
+
+      function toggleMenu() {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+      }
+
+      hamburger.addEventListener("click", toggleMenu);
+      mobileNavClose.addEventListener("click", toggleMenu);
+
+      mobileNav.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileNav.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        }),
+      );
+    </script>
+  </body>
+</html>
