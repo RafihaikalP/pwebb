@@ -1,0 +1,1176 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Laporan Praktikum 9 Rafi Haikal Pratama" />
+    <meta name="author" content="Rafi Haikal Pratama" />
+    <title>Laporan Praktikum 9 | RAFI HAIKAL PRATAMA</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="192x192" href="images/rafilogo-192x192.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+    <!-- CSS mengikuti style global laporan (sama seperti laporan7.html: variabel :root, .site-nav, .lap-hero, .report-*, .side-card, dst) -->
+  </head>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --red: #e8001f;
+        --red-dim: rgba(232, 0, 31, 0.3);
+        --surface: #0d1219;
+        --surface2: #111820;
+        --muted: #5c7896;
+        --secondary: #9aa5b4;
+        --f-display: "Barlow Condensed", sans-serif;
+        --f-mono: "Share Tech Mono", monospace;
+        --f-body: "Barlow", sans-serif;
+      }
+
+      body {
+        background: #080b10;
+        color: #f0f2f5;
+        font-family: var(--f-body);
+        overflow-x: hidden;
+        margin: 0;
+      }
+
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1050;
+        background: rgba(6, 8, 16, 0.96);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(204, 0, 24, 0.28);
+        padding: 0.65rem 0;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+      }
+
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .nav-brand-box {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 0.82rem;
+        letter-spacing: 1px;
+        background: var(--red);
+        color: #fff;
+        padding: 0.22rem 0.55rem;
+        clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 100%, 0 100%);
+      }
+
+      .nav-brand-name {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        padding: 0.45rem 0.9rem;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      .nav-links a.active { color: var(--red); }
+
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.9rem;
+        right: 0.9rem;
+        height: 2px;
+        background: var(--red);
+      }
+
+      .nav-links a:not(.active):hover { color: #fff; }
+
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+        z-index: 1100;
+      }
+
+      .nav-hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+
+      .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+      .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        background: rgba(6, 8, 16, 0.98);
+        backdrop-filter: blur(20px);
+        z-index: 1040;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.2rem;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 3px solid var(--red);
+      }
+
+      .mobile-nav.open { transform: translateX(0); }
+
+      .mobile-nav a {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: 2.4rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        transition: color 0.2s;
+      }
+
+      .mobile-nav a.active,
+      .mobile-nav a:hover { color: var(--red); }
+
+      .mobile-nav-close {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      .mobile-nav-slash {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 1rem;
+        color: rgba(232, 0, 31, 0.4);
+        letter-spacing: -2px;
+        margin-top: 0.5rem;
+      }
+
+      /* HERO */
+      .lap-hero {
+        position: relative;
+        min-height: 36vh;
+        display: flex;
+        align-items: flex-end;
+        padding-top: 70px;
+        overflow: hidden;
+        background: #080b10;
+      }
+
+      .lap-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #080b10 0%, #0e0204 40%, #1a0005 70%, #080b10 100%);
+      }
+
+      .lap-hero-ghost {
+        position: absolute;
+        right: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: clamp(4rem, 14vw, 11rem);
+        color: rgba(255, 255, 255, 0.018);
+        pointer-events: none;
+        line-height: 1;
+        letter-spacing: -4px;
+        user-select: none;
+      }
+
+      .lap-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 3rem 2rem 2.5rem 3rem;
+      }
+
+      .lap-hero-num {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 4px;
+        color: var(--red);
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .lap-hero-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        line-height: 0.88;
+        text-transform: uppercase;
+        color: #fff;
+        margin: 0;
+      }
+
+      .lap-hero-title span { color: var(--red); }
+
+      .lap-hero-sub {
+        font-family: var(--f-mono);
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-top: 1rem;
+      }
+
+      .lap-hero-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--red) 0%, rgba(232, 0, 31, 0.3) 60%, transparent 100%);
+      }
+
+      /* FOOTER */
+      .site-footer {
+        background: #050810;
+        border-top: 1px solid rgba(204, 0, 24, 0.25);
+        padding: 3.5rem 0 1.5rem;
+      }
+
+      .ft-copy, .ft-built {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      .ft-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .ft-built .sl {
+        color: var(--red);
+        letter-spacing: -2px;
+        font-size: 0.8rem;
+      }
+
+      .scroll-top {
+        position: fixed;
+        bottom: 1.7rem;
+        right: 1.7rem;
+        width: 42px;
+        height: 42px;
+        background: #cc0018;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 16px rgba(204, 0, 24, 0.5);
+        transition: transform 0.2s, background 0.2s, opacity 0.3s;
+        z-index: 999;
+        opacity: 0;
+      }
+
+      .scroll-top.show { opacity: 1; }
+      .scroll-top:hover { transform: translateY(-3px); background: var(--red); color: #fff; }
+
+      /* REPORT */
+      .report-sec {
+        padding: 4rem 0;
+        background:
+          radial-gradient(circle at top left, rgba(232, 0, 31, 0.08), transparent 32%),
+          #080b10;
+      }
+
+      .back-link {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-bottom: 1.4rem;
+        transition: gap 0.2s, color 0.2s;
+      }
+
+      .back-link:hover { gap: 0.75rem; color: #ff3350; }
+
+      .report-header {
+        background: linear-gradient(135deg, rgba(17, 24, 32, 0.98), rgba(13, 18, 25, 0.96));
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        border-radius: 4px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(232, 0, 31, 0.16), transparent 45%);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .report-header > * { position: relative; z-index: 2; }
+
+      .report-label {
+        font-family: var(--f-mono);
+        font-size: 0.62rem;
+        letter-spacing: 3px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .report-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(2.4rem, 5vw, 4.4rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .report-title span { color: var(--red); }
+
+      .report-subtitle {
+        font-family: var(--f-mono);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 1.3rem;
+      }
+
+      .report-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .meta-box {
+        background: rgba(8, 11, 16, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 0.9rem 1rem;
+        border-radius: 3px;
+      }
+
+      .meta-box strong {
+        display: block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+      }
+
+      .meta-box span { color: var(--secondary); font-size: 0.85rem; }
+
+      .status-done {
+        display: inline-block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: rgba(0, 200, 100, 0.12);
+        color: #4ade80;
+        border: 1px solid rgba(0, 200, 100, 0.25);
+        padding: 3px 10px;
+      }
+
+      .report-card, .side-card {
+        background: var(--surface2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-card::before, .side-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--red), rgba(232, 0, 31, 0.25), transparent);
+      }
+
+      .report-section { margin-bottom: 2.5rem; }
+      .report-section:last-child { margin-bottom: 0; }
+
+      .section-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        font-size: 1.45rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #fff;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.28);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-title span { color: var(--red); }
+
+      .sub-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--red);
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin: 1.5rem 0 0.75rem;
+      }
+
+      .sub-title:first-of-type { margin-top: 0; }
+
+      .report-text {
+        color: var(--secondary);
+        line-height: 1.75;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .report-list {
+        color: var(--secondary);
+        line-height: 1.8;
+        font-size: 0.95rem;
+        padding-left: 1.2rem;
+      }
+
+      .report-list li { margin-bottom: 0.45rem; }
+
+      code {
+        color: #ff5c70;
+        background: rgba(232, 0, 31, 0.1);
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: var(--f-mono);
+        font-size: 0.78rem;
+      }
+
+      .report-img-box { margin: 1.5rem 0; text-align: center; }
+
+      .report-img {
+        width: 100%;
+        max-width: 760px;
+        border-radius: 4px;
+        border: 1px solid rgba(232, 0, 31, 0.22);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+
+      .img-caption {
+        margin-top: 0.65rem;
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1.8px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      /* ERD diagram boxes */
+      .erd-wrap {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin: 1.5rem 0;
+        align-items: flex-start;
+      }
+
+      .erd-entity {
+        background: rgba(8, 11, 16, 0.85);
+        border: 1px solid rgba(232, 0, 31, 0.3);
+        border-radius: 4px;
+        overflow: hidden;
+        min-width: 180px;
+        flex: 1;
+      }
+
+      .erd-entity-header {
+        background: rgba(232, 0, 31, 0.18);
+        padding: 0.5rem 1rem;
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        text-align: center;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.25);
+      }
+
+      .erd-row {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.3rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 0.78rem;
+        align-items: center;
+      }
+
+      .erd-row:last-child { border-bottom: none; }
+
+      .erd-type {
+        font-family: var(--f-mono);
+        color: var(--muted);
+        font-size: 0.62rem;
+        min-width: 52px;
+      }
+
+      .erd-col { color: var(--secondary); flex: 1; }
+
+      .erd-badge {
+        font-family: var(--f-mono);
+        font-size: 0.5rem;
+        letter-spacing: 1px;
+        padding: 1px 6px;
+        border-radius: 2px;
+      }
+
+      .erd-pk { background: rgba(232, 0, 31, 0.15); color: #ff5c70; border: 1px solid rgba(232, 0, 31, 0.25); }
+      .erd-fk { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+      .erd-uk { background: rgba(250, 204, 21, 0.1); color: #fcd34d; border: 1px solid rgba(250, 204, 21, 0.2); }
+
+      .erd-connector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 0 0.5rem;
+        color: var(--muted);
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: center;
+        min-width: 70px;
+      }
+
+      .erd-connector i { color: rgba(232, 0, 31, 0.5); font-size: 1rem; }
+
+      /* Tabel */
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.2rem 0;
+        font-size: 0.88rem;
+      }
+
+      .report-table thead tr {
+        background: rgba(232, 0, 31, 0.15);
+        border-bottom: 2px solid rgba(232, 0, 31, 0.35);
+      }
+
+      .report-table th {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        padding: 0.7rem 1rem;
+        text-align: left;
+      }
+
+      .report-table td {
+        color: var(--secondary);
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .report-table tbody tr:hover { background: rgba(232, 0, 31, 0.04); }
+
+      .badge-rel {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1px;
+        padding: 2px 8px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+
+      .badge-otm { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+      .badge-mto { background: rgba(250, 204, 21, 0.1); color: #fcd34d; border: 1px solid rgba(250, 204, 21, 0.18); }
+      .badge-mtm { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.2); }
+
+      .badge-method {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        background: rgba(232, 0, 31, 0.12);
+        color: #ff5c70;
+        border: 1px solid rgba(232, 0, 31, 0.2);
+        padding: 2px 8px;
+        border-radius: 2px;
+      }
+
+      /* Side card */
+      .side-card { position: sticky; top: 95px; }
+
+      .side-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .side-list { list-style: none; padding: 0; margin: 0; }
+
+      .side-list li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        color: var(--secondary);
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .side-list i { color: #4ade80; margin-top: 0.2rem; }
+
+      .side-divider {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        margin: 1.2rem 0;
+      }
+
+      .side-label {
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .rel-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        border-radius: 2px;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+
+      .rel-pill-otm { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.18); }
+      .rel-pill-mtm { background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.18); }
+
+      @media (max-width: 991px) {
+        .nav-hamburger { display: flex; }
+        .nav-links { display: none; }
+        .side-card { position: static; }
+        .report-meta { grid-template-columns: 1fr; }
+        .erd-connector { min-width: 40px; }
+      }
+
+      @media (max-width: 768px) {
+        .lap-hero-content { padding: 2.5rem 1.5rem 2rem; }
+        .report-header { padding: 1.4rem; }
+        .report-card, .side-card { padding: 1.2rem; }
+        .erd-wrap { flex-direction: column; }
+        .erd-connector { flex-direction: row; padding: 0.5rem 0; }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- ============================================================
+         NAVBAR
+    ============================================================ -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-brand-box">RAFI</span>
+          <span class="nav-brand-name">FOLIO</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="portofolio.html">PORTFOLIO</a></li>
+          <li><a href="laporan.html" class="active">LAPORAN</a></li>
+          <li><a href="kontak.html">CONTACT</a></li>
+        </ul>
+
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+      <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="portofolio.html">PORTFOLIO</a>
+      <a href="laporan.html" class="active">LAPORAN</a>
+      <a href="kontak.html">CONTACT</a>
+      <div class="mobile-nav-slash">///</div>
+    </div>
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="lap-hero">
+      <div class="lap-hero-ghost">PRAKTIKUM 01</div>
+      <div class="lap-hero-content">
+        <span class="lap-hero-num">// 01 · PRACTICAL REPORT · FLUTTER</span>
+        <h1 class="lap-hero-title">LAPORAN <span>1</span></h1>
+        <p class="lap-hero-sub">Input Widgets dan Basic Form — Flutter — Aplikasi Mobile</p>
+      </div>
+      <div class="lap-hero-line"></div>
+    </section>
+
+    <!-- ============================================================
+         ISI LAPORAN
+    ============================================================ -->
+    <section class="report-sec">
+      <div class="container">
+        <a href="laporan.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Kembali ke Laporan
+        </a>
+
+        <!-- HEADER -->
+        <div class="report-header">
+          <div class="report-label">Aplikasi Mobile · Flutter</div>
+          <h1 class="report-title">Laporan Praktikum <span>1</span></h1>
+          <p class="report-subtitle">TextField · TextFormField · GlobalKey · Validasi Form · setState()</p>
+
+          <div class="report-meta">
+            <div class="meta-box">
+              <strong>Disusun Oleh</strong>
+              <span>Rafi Haikal Pratama</span>
+            </div>
+            <div class="meta-box">
+              <strong>NIM</strong>
+              <span>2411532002</span>
+            </div>
+            <div class="meta-box">
+              <strong>Status</strong>
+              <span class="status-done">Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+
+          <!-- ======================================================
+               KONTEN UTAMA
+          ====================================================== -->
+          <div class="col-lg-8">
+            <div class="report-card">
+
+              <!-- INTRO -->
+              <p class="report-text">
+                Praktikum ke-3 mata kuliah Aplikasi Mobile membahas tentang pembuatan <strong>Basic Form</strong> pada Flutter menggunakan berbagai widget inputan. Pada praktikum ini mahasiswa mempelajari cara menerima, mengelola, dan memvalidasi inputan dari pengguna menggunakan widget <code>TextField</code> dan <code>TextFormField</code>, serta memanfaatkan <code>TextEditingController</code>, <code>GlobalKey&lt;FormState&gt;</code>, dan <code>setState()</code> untuk mengontrol alur data pada aplikasi.
+              </p>
+
+              <!-- ------------------------------------------------
+                   SECTION 1 — TUJUAN
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.</span> Tujuan Praktikum</h3>
+                <p class="report-text">Tujuan dari praktikum ini adalah agar mahasiswa mampu:</p>
+                <ul class="report-list">
+                  <li>Membuat beberapa <strong>input widgets</strong> pada Flutter seperti <code>TextField</code> dan <code>TextFormField</code>.</li>
+                  <li>Membuat dan mengontrol inputan dari pengguna menggunakan <code>TextEditingController</code>.</li>
+                  <li>Melakukan validasi form menggunakan <code>GlobalKey&lt;FormState&gt;</code> dan method <code>validate()</code>.</li>
+                  <li>Memahami penggunaan <code>setState()</code> untuk memperbarui tampilan pada <code>StatefulWidget</code>.</li>
+                  <li>Memahami manfaat penggunaan keyword <code>const</code> untuk optimasi performa widget.</li>
+                </ul>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 2 — ALAT
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.</span> Alat</h3>
+                <ul class="report-list">
+                  <li>Computer / laptop yang telah terinstall lingkungan Flutter development (Flutter SDK, Dart, Android Studio / VS Code).</li>
+                </ul>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 3 — TEORI
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>3.</span> Teori</h3>
+
+                <!-- 3.1 Basic Form -->
+                <h5 class="sub-section-title">3.1 Basic Form</h5>
+                <p class="report-text">
+                  <strong>Basic Form</strong> merupakan widget yang berfungsi sebagai inputan nilai pada Flutter, seperti <code>TextField</code>, <code>TextFormField</code>, <code>CheckBox</code>, <code>Switch</code>, <code>Dropdown</code>, <code>Radio</code>, <code>Dialog</code>, <code>DatePicker</code>, <code>BottomSheet</code>, <code>Snackbar</code>, dan lain-lain. Basic Form digunakan untuk validasi dan mengelola inputan dari berbagai field. Form akan memberikan tampilan inputan, kemudian inputan akan diperiksa apakah sudah sesuai dengan aturan atau format yang ditetapkan, selanjutnya data inputan akan diambil nilainya setelah proses pengecekan selesai dilakukan.
+                </p>
+
+                <!-- 3.2 TextField -->
+                <h5 class="sub-section-title">3.2 TextField</h5>
+                <p class="report-text">
+                  <strong>TextField</strong> adalah widget yang digunakan untuk memasukkan teks oleh pengguna. Widget ini biasanya digunakan untuk membuat form inputan seperti form login, pencarian, dan sebagainya.
+                </p>
+                <p class="report-text">Fitur utama TextField:</p>
+                <ul class="report-list">
+                  <li>Menerima input dari keyboard.</li>
+                  <li>Memiliki properti yang lengkap: <code>style</code>, <code>decoration</code>, dan jenis inputan.</li>
+                  <li>Dapat mengelola teks menggunakan <code>TextEditingController</code>.</li>
+                </ul>
+                
+
+                <!-- 3.3 TextFormField -->
+                <h5 class="sub-section-title">3.3 TextFormField</h5>
+                <p class="report-text">
+                  <strong>TextFormField</strong> adalah widget versi lengkap dari <code>TextField</code> yang secara otomatis terintegrasi dengan logika validasi dan manajemen state dari sebuah Form.
+                </p>
+                <p class="report-text">Fitur utama TextFormField:</p>
+                <ul class="report-list">
+                  <li>Menerima input teks dari keyboard.</li>
+                  <li>Memiliki properti <code>validator</code> untuk memeriksa apakah input sudah sesuai dengan aturan yang ditentukan.</li>
+                  <li>Menampilkan pesan error secara otomatis di bawah field jika validasi gagal.</li>
+                  <li>Berinteraksi dengan <code>FormState</code> untuk melakukan validasi secara kolektif dengan method <code>validate()</code>.</li>
+                </ul>
+                
+
+                <!-- 3.4 GlobalKey -->
+                <h5 class="sub-section-title">3.4 GlobalKey&lt;FormState&gt;</h5>
+                <p class="report-text">
+                  <strong>GlobalKey</strong> merupakan objek unik yang digunakan untuk mengidentifikasi dan mengakses state secara global, artinya kita dapat mengakses widget dari widget mana saja. <strong>FormState</strong> adalah kelas yang mengelola status dari Form, seperti status validasi setiap form inputan (<code>TextFormField</code>). Dengan menggunakan <code>GlobalKey</code> pada widget <code>Form</code>, kita dapat memanggil metode seperti <code>validate()</code> atau <code>save()</code> dari luar widget tersebut, biasanya dari <code>onPressed</code> pada <code>ElevatedButton</code>.
+                </p>
+
+                <!-- 3.5 validate() -->
+                <h5 class="sub-section-title">3.5 validate()</h5>
+                <p class="report-text">
+                  Metode <code>validate()</code> merupakan fungsi pada <code>FormState</code> yang digunakan untuk menjalankan validasi pada setiap <code>TextFormField</code> di dalam <code>Form</code>. Ketika <code>_formKey.currentState!.validate()</code> dipanggil, Flutter akan:
+                </p>
+                <ul class="report-list">
+                  <li>Mengecek setiap <code>TextFormField</code> yang terikat pada Form tersebut.</li>
+                  <li>Menjalankan fungsi <code>validator</code> yang telah didefinisikan pada setiap <code>TextFormField</code>.</li>
+                  <li>Jika fungsi validator mengembalikan String (pesan error), <code>validate()</code> akan menghentikan proses dan mengembalikan <code>false</code>. Pesan error akan ditampilkan di bawah <code>TextFormField</code>.</li>
+                  <li>Jika semua fungsi validator mengembalikan <code>null</code> (tidak ada error), <code>validate()</code> akan mengembalikan <code>true</code>.</li>
+                </ul>
+
+                <!-- 3.6 setState -->
+                <h5 class="sub-section-title">3.6 setState()</h5>
+                <p class="report-text">
+                  <code>setState()</code> merupakan sebuah method pada Flutter yang digunakan untuk me-rebuild ulang state yang ada pada <code>StatefulWidget</code>. Method ini memberitahu Flutter bahwa state telah berubah dan widget perlu di-rebuild. Contoh penggunaan:
+                </p>
+                
+
+                <!-- 3.7 Const -->
+                <h5 class="sub-section-title">3.7 Keyword <code>const</code></h5>
+                <p class="report-text">
+                  Kata kunci <code>const</code> pada widget Flutter digunakan untuk membuat widget menjadi konstanta pada saat kompilasi (<em>compile-time</em>). Penggunaan <code>const</code> meningkatkan performa karena widget tersebut dibuat sekali dan disimpan di memori sehingga dapat digunakan kembali tanpa perlu di-build ulang setiap kali method <code>build()</code> dipanggil akibat perubahan state di widget lain.
+                </p>
+
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>Aspek</th>
+                      <th>Tanpa <code>const</code></th>
+                      <th>Dengan <code>const</code></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Build ulang</td>
+                      <td>Setiap kali <code>build()</code> dipanggil</td>
+                      <td>Hanya sekali saat kompilasi</td>
+                    </tr>
+                    <tr>
+                      <td>Performa</td>
+                      <td>Lebih lambat jika banyak widget</td>
+                      <td>Lebih cepat & hemat resource</td>
+                    </tr>
+                    <tr>
+                      <td>Memori</td>
+                      <td>Instance baru setiap rebuild</td>
+                      <td>Instance disimpan & digunakan ulang</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 4 — LANGKAH KERJA
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>4.</span> Langkah Kerja</h3>
+
+                <!-- === 4.1 TEXTFIELD === -->
+                <h4 class="group-title">4.1 Basic Form TextField</h4>
+
+                <h5 class="sub-section-title">Langkah 1 Buat File Dart Baru</h5>
+                <p class="report-text">
+                  Buat file dart baru dengan nama <code>form_textfield.dart</code> di dalam folder <code>lib</code> pada project Flutter.
+                </p>
+
+                <h5 class="sub-section-title">Langkah 2 Buat Tampilan Basic Form dengan TextField</h5>
+                <p class="report-text">
+                  Buat tampilan basic form menggunakan widget <code>TextField</code> untuk inputan dan <code>ElevatedButton</code> untuk memberikan event listener. Isikan kode program berikut ke dalam file tersebut:
+                </p>
+
+                
+                  <div class="report-img-box">
+                  <img src="images/prakapmob1/textfieldcode.png" alt="Tampilan awal Basic Form TextField" class="report-img" />
+                  <p class="img-caption">code Basic Form </p>
+                </div>
+
+                <h5 class="sub-section-title">Penjelasan Program</h5>
+                <p class="report-text">
+                  Kode program tersebut merupakan implementasi form input sederhana menggunakan widget TextField pada Flutter. Program diawali dengan mengimpor library material.dart yang menyediakan berbagai komponen antarmuka Flutter. Fungsi main() digunakan sebagai titik awal untuk menjalankan aplikasi melalui widget MyApp. Class MyApp menggunakan StatelessWidget dan membangun struktur utama aplikasi dengan MaterialApp dan Scaffold. Pada bagian AppBar ditampilkan judul "Basic Form", sedangkan bagian body menampilkan widget MyForm.
+
+                  Widget MyForm menggunakan StatefulWidget dan memiliki _MyFormState untuk mengatur tampilan form. Isi form disusun menggunakan Padding agar terdapat jarak 20 pixel dari tepi layar, kemudian Column digunakan untuk menyusun komponen secara vertikal. Terdapat teks "Masukkan nama anda :" sebagai petunjuk kepada pengguna, kemudian widget TextField digunakan untuk menerima input nama lengkap. Tampilan TextField diatur menggunakan InputDecoration dengan labelText sebagai label "Nama Lengkap", hintText sebagai contoh input "Misalnya masnoer", OutlineInputBorder untuk memberikan garis tepi, serta prefixIcon untuk menampilkan ikon pengguna. Setelah kolom input terdapat SizedBox sebagai pemberi jarak dan ElevatedButton sebagai tombol "Tampilkan nama". Tombol tersebut diberi warna latar amber dan warna teks hitam, tetapi fungsi onPressed masih kosong sehingga belum melakukan proses terhadap nama yang dimasukkan. Secara keseluruhan, program ini digunakan untuk mempraktikkan penggunaan TextField sebagai widget input dasar dalam aplikasi Flutter.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob1/textfield.png" alt="Tampilan awal Basic Form TextField" class="report-img" />
+                  <p class="img-caption">Tampilan Basic Form dengan widget TextField dan ElevatedButton</p>
+                </div>
+
+
+                <!-- === 4.2 TEXTFORMFIELD === -->
+                <h4 class="group-title" style="margin-top: 2rem;">4.2 Basic Form TextFormField</h4>
+
+                <h5 class="sub-section-title">Langkah 1 Buat File Dart Baru</h5>
+                <p class="report-text">
+                  Buat file dart baru di dalam folder <code>lib</code> dengan nama <code>form_textformfield.dart</code>.
+                </p>
+
+                <h5 class="sub-section-title">Langkah 2 Buat Tampilan Form dengan 2 TextFormField</h5>
+                <p class="report-text">
+                  Buat form inputan menggunakan 2 buah widget <code>TextFormField</code> (untuk Nama dan Email) dan 1 buah <code>ElevatedButton</code>. Isikan kode program berikut:
+                </p>
+                <div class="report-img-box">
+                  <img src="images/prakapmob1/textformfieldcode.png" alt="Tampilan awal TextFormField" class="report-img" />
+                  <p class="img-caption">// Code Basic Form TextFormField </p>
+                </div>
+                
+                <h5 class="sub-section-title">Penjelasan Code</h5>
+                <p class="report-text">
+                  Kode program tersebut merupakan implementasi form input menggunakan TextFormField yang dilengkapi dengan validasi data pada Flutter. Program diawali dengan mengimpor library material.dart, kemudian fungsi main() digunakan untuk menjalankan aplikasi melalui widget MyApp. Class MyApp menggunakan StatelessWidget dan membangun struktur aplikasi dengan MaterialApp, Scaffold, dan AppBar yang menampilkan judul "Basic Form TextFormField". Bagian body menampilkan widget MyFormText yang dibuat menggunakan StatefulWidget.
+
+                  Pada class _MyFormTextState, program menggunakan GlobalKey<FormState> untuk mengelola dan menjalankan proses validasi pada form, serta dua TextEditingController untuk mengambil data dari input nama dan email. Method dispose() digunakan untuk menghapus controller ketika widget tidak lagi digunakan. Method _submitForm() berfungsi untuk memeriksa validasi form melalui _formKey.currentState!.validate(). Apabila seluruh data memenuhi aturan validasi, nilai nama dan email diambil melalui controller kemudian ditampilkan menggunakan SnackBar. Pada bagian form terdapat dua TextFormField, yaitu kolom nama dan email. Kolom nama memiliki validasi agar tidak boleh kosong, sedangkan kolom email harus diisi dan harus mengandung karakter @. Tombol Submit digunakan untuk menjalankan proses _submitForm() sehingga validasi akan dilakukan ketika tombol ditekan. Dengan demikian, kode ini menunjukkan penerapan TextFormField, TextEditingController, Form, GlobalKey, validator, dan SnackBar untuk membuat form dengan validasi input.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob1/textformfield.png" alt="Tampilan awal TextFormField" class="report-img" />
+                  <p class="img-caption">// Tampilan awal Basic Form TextFormField dengan dua input field dan tombol Submit</p>
+                </div>
+
+
+              <!-- ------------------------------------------------
+                   SECTION 5 — TUGAS
+              ------------------------------------------------ -->
+                            <section class="report-section">
+                <h3 class="section-title"><span>5.</span> Latihan / Tugas</h3>
+
+                <h5 class="sub-section-title">Deskripsi Tugas </h5>
+                <p class="report-text">
+                  Tugas praktikum kelas A adalah membuat <strong>Aplikasi Kalkulator</strong> menggunakan Flutter yang dapat menjalankan empat operasi aritmatika dasar (tambah, kurang, kali, bagi) — dikenal dengan istilah <em>Kabataku</em>.
+                </p>
+
+                <p class="report-text">Instruksi tugas:</p>
+                <ul class="report-list">
+                  <li>Gunakan 2 buah widget inputan (<code>TextField</code>) untuk menerima nilai angka pertama dan angka kedua.</li>
+                  <li>Gunakan <code>ElevatedButton</code> untuk setiap operasi Kabataku (Tambah, Kurang, Kali, Bagi).</li>
+                  <li>Gunakan widget <code>Text</code> untuk menampilkan hasil operasi.</li>
+                  <li>Gunakan <code>setState()</code> untuk memperbarui tampilan hasil setiap kali operasi dijalankan.</li>
+                  <li>Tambahkan validasi: angka harus berupa nilai numerik yang valid, dan pembagian dengan angka 0 harus ditangani.</li>
+                </ul>
+
+                <h5 class="sub-section-title">Hasil Tugas</h5>
+                <p class="report-text">
+                  Berikut adalah kode program tugas Kalkulator Kabataku (<code>kalkulator.dart</code>):
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob1/kalkulatorcode.png" alt="Hasil Tugas Form Pendaftaran" class="report-img" />
+                  <p class="img-caption">// Code Kalkulator</p>
+                </div>
+              </section>
+              
+              <h5 class="sub-section-title">Penjelasan Code</h5>
+                <p class="report-text">
+                  Kode program tersebut merupakan implementasi kalkulator sederhana untuk melakukan operasi kabataku, yaitu penjumlahan, pengurangan, perkalian, dan pembagian menggunakan Flutter. Program dibuat dengan StatefulWidget agar hasil perhitungan dapat berubah sesuai input pengguna. Dua TextEditingController digunakan untuk mengambil nilai dari dua TextField, yaitu Angka Pertama dan Angka Kedua. Nilai yang dimasukkan kemudian dikonversi menjadi tipe double menggunakan double.tryParse(), sehingga program dapat menangani input angka maupun memberikan pesan "Masukkan angka yang valid" apabila input tidak sesuai. Terdapat empat method, yaitu _tambah(), _kurang(), _kali(), dan _bagi() yang masing-masing menjalankan operasi aritmatika sesuai tombol yang ditekan. Khusus pada operasi pembagian, program melakukan pengecekan terhadap angka kedua agar tidak bernilai nol dan menampilkan pesan "Tidak dapat membagi dengan 0" jika kondisi tersebut terjadi. Hasil perhitungan disimpan pada variabel _hasil dan diperbarui menggunakan setState() sehingga tampilan hasil pada widget Text ikut berubah. Pada bagian antarmuka, dua TextField digunakan sebagai input angka dan empat ElevatedButton digunakan untuk menjalankan operasi kabataku, sedangkan Row dan Expanded digunakan agar tombol tersusun secara horizontal dan memiliki ukuran yang seimbang. Method dispose() digunakan untuk melepaskan kedua controller setelah widget tidak lagi digunakan. Secara keseluruhan, program ini menerapkan TextField, TextEditingController, StatefulWidget, setState, ElevatedButton, dan operasi aritmatika untuk memenuhi latihan Kelas A berupa pembuatan kalkulator operasi kabataku.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob1/kalkulator.png" alt="Hasil Tugas Form Pendaftaran" class="report-img" />
+                  <p class="img-caption">// Tampilan Kalkulator Kabataku dengan 2 input angka, 4 tombol operasi, dan hasil ditampilkan via Text widget</p>
+                </div>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 6 — KESIMPULAN
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>6.</span> Kesimpulan</h3>
+                <p class="report-text">
+                  Berdasarkan praktikum yang telah dilakukan, <code>TextField</code> dan <code>TextFormField</code> merupakan dua widget input utama pada Flutter yang memiliki perbedaan mendasar: <code>TextField</code> lebih sederhana dan fleksibel, sedangkan <code>TextFormField</code> terintegrasi langsung dengan sistem validasi Form melalui <code>GlobalKey&lt;FormState&gt;</code> sehingga lebih direkomendasikan untuk penggunaan dalam sebuah form yang memerlukan validasi.
+                </p>
+                <p class="report-text">
+                  <code>TextEditingController</code> terbukti menjadi jembatan penting antara widget input dan logika program, memungkinkan kita membaca nilai input kapan saja tanpa harus bergantung pada event tertentu. Penggunaan <code>GlobalKey&lt;FormState&gt;</code> bersama method <code>validate()</code> mempermudah validasi banyak field sekaligus dalam satu method — jika ada satu field yang tidak lolos validasi, seluruh proses submit dihentikan dan pesan error ditampilkan langsung di bawah field yang bersangkutan.
+                </p>
+                <p class="report-text">
+                  Keyword <code>const</code> sebaiknya diterapkan pada widget yang tidak bergantung pada state yang berubah, karena hal ini mencegah rebuild widget yang tidak perlu dan berdampak positif pada performa aplikasi. Secara keseluruhan, pemahaman tentang Basic Form merupakan fondasi penting dalam pengembangan aplikasi mobile Flutter karena hampir setiap aplikasi memerlukan mekanisme penerimaan dan validasi inputan dari pengguna.
+                </p>
+              </section>
+
+            </div><!-- /report-card -->
+          </div><!-- /col-lg-8 -->
+
+          <!-- ======================================================
+               SIDEBAR
+          ====================================================== -->
+          <div class="col-lg-4">
+            <div class="side-card">
+              <h5 class="side-title">Detail Praktikum</h5>
+              <ul class="side-list">
+                <li><i class="fas fa-check-circle"></i> Basic Form TextField</li>
+                <li><i class="fas fa-check-circle"></i> TextEditingController</li>
+                <li><i class="fas fa-check-circle"></i> onChanged Event Listener</li>
+                <li><i class="fas fa-check-circle"></i> SnackBar Output</li>
+                <li><i class="fas fa-check-circle"></i> Basic Form TextFormField</li>
+                <li><i class="fas fa-check-circle"></i> GlobalKey&lt;FormState&gt;</li>
+                <li><i class="fas fa-check-circle"></i> Validator per Field</li>
+                <li><i class="fas fa-check-circle"></i> validate() &amp; submitForm()</li>
+                <li><i class="fas fa-check-circle"></i> setState() &amp; keyword const</li>
+                <li><i class="fas fa-check-circle"></i> Kalkulator Kabataku </li>
+              </ul>
+            </div>
+          </div>
+
+        </div><!-- /row -->
+      </div><!-- /container -->
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+    ============================================================ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="ft-bottom">
+          <p class="ft-copy">&copy; 2026 RAFI HAIKAL PRATAMA. ALL RIGHTS RESERVED.</p>
+          <div class="ft-built">BUILT WITH PASSION <span class="sl">///</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <a href="#" class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- ============================================================
+         SCRIPTS
+    ============================================================ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Scroll to top
+      const st = document.getElementById("scrollTop");
+      window.addEventListener("scroll", () => {
+        st.classList.toggle("show", window.scrollY > 300);
+      });
+      st.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Hamburger mobile nav
+      const hamburger     = document.getElementById("hamburger");
+      const mobileNav     = document.getElementById("mobileNav");
+      const mobileClose   = document.getElementById("mobileNavClose");
+
+      function toggleMenu() {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+      }
+
+      hamburger.addEventListener("click", toggleMenu);
+      mobileClose.addEventListener("click", toggleMenu);
+      mobileNav.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileNav.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        })
+      );
+    </script>
+
+  </body>
+</html>
