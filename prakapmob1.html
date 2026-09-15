@@ -745,6 +745,72 @@
         .erd-wrap { flex-direction: column; }
         .erd-connector { flex-direction: row; padding: 0.5rem 0; }
       }
+
+            /* ── GITHUB BOX ── */
+      .github-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        background: rgba(8, 11, 16, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        padding: 1.1rem 1.4rem;
+        margin-top: 1.5rem;
+      }
+
+      .github-box-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .github-box-icon {
+        font-size: 2rem;
+        color: var(--secondary);
+        flex-shrink: 0;
+      }
+
+      .github-box-label {
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+      }
+
+      .github-box-repo {
+        font-family: var(--f-mono);
+        font-size: 0.8rem;
+        color: #fff;
+        letter-spacing: 0.5px;
+      }
+
+      .github-box-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 0.82rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        background: var(--red);
+        padding: 0.55rem 1.2rem;
+        border-radius: 4px;
+        white-space: nowrap;
+        transition: background 0.2s, transform 0.15s;
+      }
+
+      .github-box-btn:hover {
+        background: #ff1f3a;
+        color: #fff;
+        transform: translateY(-2px);
+      }
     </style>
   </head>
 
@@ -1091,6 +1157,25 @@
                 </p>
               </section>
 
+                          <!-- GitHub Link -->
+              <div class="github-box">
+                <div class="github-box-left">
+                  <i class="fab fa-github github-box-icon"></i>
+                  <div>
+                    <div class="github-box-label">// SOURCE CODE</div>
+                    <div class="github-box-repo">praktikum-flutter / input-widgets-basic-form</div>
+                  </div>
+                </div>
+                
+                  href="https://github.com/RafihaikalP/2411532002_AplikasiMobile_A_RafiHaikalPratama/tree/Praktikum1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="github-box-btn"
+                >
+                  <i class="fab fa-github"></i> Lihat di GitHub
+                </a>
+              </div>
+            </section>
             </div><!-- /report-card -->
           </div><!-- /col-lg-8 -->
 
