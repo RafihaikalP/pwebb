@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Laporan Praktikum 9 Rafi Haikal Pratama" />
+    <meta name="author" content="Rafi Haikal Pratama" />
+    <title>Laporan Praktikum 9 | RAFI HAIKAL PRATAMA</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="192x192" href="images/rafilogo-192x192.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+    <!-- CSS mengikuti style global laporan (sama seperti laporan7.html: variabel :root, .site-nav, .lap-hero, .report-*, .side-card, dst) -->
+  </head>
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --red: #e8001f;
+        --red-dim: rgba(232, 0, 31, 0.3);
+        --surface: #0d1219;
+        --surface2: #111820;
+        --muted: #5c7896;
+        --secondary: #9aa5b4;
+        --f-display: "Barlow Condensed", sans-serif;
+        --f-mono: "Share Tech Mono", monospace;
+        --f-body: "Barlow", sans-serif;
+      }
+
+      body {
+        background: #080b10;
+        color: #f0f2f5;
+        font-family: var(--f-body);
+        overflow-x: hidden;
+        margin: 0;
+      }
+
+      .site-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1050;
+        background: rgba(6, 8, 16, 0.96);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(204, 0, 24, 0.28);
+        padding: 0.65rem 0;
+      }
+
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+      }
+
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+      }
+
+      .nav-brand-box {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 0.82rem;
+        letter-spacing: 1px;
+        background: var(--red);
+        color: #fff;
+        padding: 0.22rem 0.55rem;
+        clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 100%, 0 100%);
+      }
+
+      .nav-brand-name {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 1rem;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: #fff;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-links a {
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        padding: 0.45rem 0.9rem;
+        position: relative;
+        transition: color 0.2s;
+      }
+
+      .nav-links a.active { color: var(--red); }
+
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0.9rem;
+        right: 0.9rem;
+        height: 2px;
+        background: var(--red);
+      }
+
+      .nav-links a:not(.active):hover { color: #fff; }
+
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+        z-index: 1100;
+      }
+
+      .nav-hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: #fff;
+        transition: all 0.3s;
+        border-radius: 2px;
+      }
+
+      .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+      .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      .mobile-nav {
+        position: fixed;
+        inset: 0;
+        background: rgba(6, 8, 16, 0.98);
+        backdrop-filter: blur(20px);
+        z-index: 1040;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.2rem;
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 3px solid var(--red);
+      }
+
+      .mobile-nav.open { transform: translateX(0); }
+
+      .mobile-nav a {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: 2.4rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--secondary);
+        transition: color 0.2s;
+      }
+
+      .mobile-nav a.active,
+      .mobile-nav a:hover { color: var(--red); }
+
+      .mobile-nav-close {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+
+      .mobile-nav-slash {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: 1rem;
+        color: rgba(232, 0, 31, 0.4);
+        letter-spacing: -2px;
+        margin-top: 0.5rem;
+      }
+
+      /* HERO */
+      .lap-hero {
+        position: relative;
+        min-height: 36vh;
+        display: flex;
+        align-items: flex-end;
+        padding-top: 70px;
+        overflow: hidden;
+        background: #080b10;
+      }
+
+      .lap-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, #080b10 0%, #0e0204 40%, #1a0005 70%, #080b10 100%);
+      }
+
+      .lap-hero-ghost {
+        position: absolute;
+        right: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-size: clamp(4rem, 14vw, 11rem);
+        color: rgba(255, 255, 255, 0.018);
+        pointer-events: none;
+        line-height: 1;
+        letter-spacing: -4px;
+        user-select: none;
+      }
+
+      .lap-hero-content {
+        position: relative;
+        z-index: 2;
+        padding: 3rem 2rem 2.5rem 3rem;
+      }
+
+      .lap-hero-num {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 4px;
+        color: var(--red);
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .lap-hero-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        line-height: 0.88;
+        text-transform: uppercase;
+        color: #fff;
+        margin: 0;
+      }
+
+      .lap-hero-title span { color: var(--red); }
+
+      .lap-hero-sub {
+        font-family: var(--f-mono);
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-top: 1rem;
+      }
+
+      .lap-hero-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--red) 0%, rgba(232, 0, 31, 0.3) 60%, transparent 100%);
+      }
+
+      /* FOOTER */
+      .site-footer {
+        background: #050810;
+        border-top: 1px solid rgba(204, 0, 24, 0.25);
+        padding: 3.5rem 0 1.5rem;
+      }
+
+      .ft-copy, .ft-built {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      .ft-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .ft-built .sl {
+        color: var(--red);
+        letter-spacing: -2px;
+        font-size: 0.8rem;
+      }
+
+      .scroll-top {
+        position: fixed;
+        bottom: 1.7rem;
+        right: 1.7rem;
+        width: 42px;
+        height: 42px;
+        background: #cc0018;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 16px rgba(204, 0, 24, 0.5);
+        transition: transform 0.2s, background 0.2s, opacity 0.3s;
+        z-index: 999;
+        opacity: 0;
+      }
+
+      .scroll-top.show { opacity: 1; }
+      .scroll-top:hover { transform: translateY(-3px); background: var(--red); color: #fff; }
+
+      /* REPORT */
+      .report-sec {
+        padding: 4rem 0;
+        background:
+          radial-gradient(circle at top left, rgba(232, 0, 31, 0.08), transparent 32%),
+          #080b10;
+      }
+
+      .back-link {
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        margin-bottom: 1.4rem;
+        transition: gap 0.2s, color 0.2s;
+      }
+
+      .back-link:hover { gap: 0.75rem; color: #ff3350; }
+
+      .report-header {
+        background: linear-gradient(135deg, rgba(17, 24, 32, 0.98), rgba(13, 18, 25, 0.96));
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        border-radius: 4px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-header::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(232, 0, 31, 0.16), transparent 45%);
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
+      .report-header > * { position: relative; z-index: 2; }
+
+      .report-label {
+        font-family: var(--f-mono);
+        font-size: 0.62rem;
+        letter-spacing: 3px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .report-title {
+        font-family: var(--f-display);
+        font-weight: 900;
+        font-style: italic;
+        font-size: clamp(2.4rem, 5vw, 4.4rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .report-title span { color: var(--red); }
+
+      .report-subtitle {
+        font-family: var(--f-mono);
+        font-size: 0.72rem;
+        letter-spacing: 2px;
+        color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 1.3rem;
+      }
+
+      .report-meta {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .meta-box {
+        background: rgba(8, 11, 16, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 0.9rem 1rem;
+        border-radius: 3px;
+      }
+
+      .meta-box strong {
+        display: block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.35rem;
+      }
+
+      .meta-box span { color: var(--secondary); font-size: 0.85rem; }
+
+      .status-done {
+        display: inline-block;
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: rgba(0, 200, 100, 0.12);
+        color: #4ade80;
+        border: 1px solid rgba(0, 200, 100, 0.25);
+        padding: 3px 10px;
+      }
+
+      .report-card, .side-card {
+        background: var(--surface2);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .report-card::before, .side-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--red), rgba(232, 0, 31, 0.25), transparent);
+      }
+
+      .report-section { margin-bottom: 2.5rem; }
+      .report-section:last-child { margin-bottom: 0; }
+
+      .section-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        font-size: 1.45rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #fff;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.28);
+        padding-bottom: 0.6rem;
+        margin-bottom: 1rem;
+      }
+
+      .section-title span { color: var(--red); }
+
+      .sub-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: var(--red);
+        font-size: 1rem;
+        text-transform: uppercase;
+        margin: 1.5rem 0 0.75rem;
+      }
+
+      .sub-title:first-of-type { margin-top: 0; }
+
+      .report-text {
+        color: var(--secondary);
+        line-height: 1.75;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .report-list {
+        color: var(--secondary);
+        line-height: 1.8;
+        font-size: 0.95rem;
+        padding-left: 1.2rem;
+      }
+
+      .report-list li { margin-bottom: 0.45rem; }
+
+      code {
+        color: #ff5c70;
+        background: rgba(232, 0, 31, 0.1);
+        border: 1px solid rgba(232, 0, 31, 0.18);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-family: var(--f-mono);
+        font-size: 0.78rem;
+      }
+
+      .report-img-box { margin: 1.5rem 0; text-align: center; }
+
+      .report-img {
+        width: 100%;
+        max-width: 760px;
+        border-radius: 4px;
+        border: 1px solid rgba(232, 0, 31, 0.22);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      }
+
+      .img-caption {
+        margin-top: 0.65rem;
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1.8px;
+        color: var(--muted);
+        text-transform: uppercase;
+      }
+
+      /* ERD diagram boxes */
+      .erd-wrap {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin: 1.5rem 0;
+        align-items: flex-start;
+      }
+
+      .erd-entity {
+        background: rgba(8, 11, 16, 0.85);
+        border: 1px solid rgba(232, 0, 31, 0.3);
+        border-radius: 4px;
+        overflow: hidden;
+        min-width: 180px;
+        flex: 1;
+      }
+
+      .erd-entity-header {
+        background: rgba(232, 0, 31, 0.18);
+        padding: 0.5rem 1rem;
+        font-family: var(--f-mono);
+        font-size: 0.65rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        text-align: center;
+        border-bottom: 1px solid rgba(232, 0, 31, 0.25);
+      }
+
+      .erd-row {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.3rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 0.78rem;
+        align-items: center;
+      }
+
+      .erd-row:last-child { border-bottom: none; }
+
+      .erd-type {
+        font-family: var(--f-mono);
+        color: var(--muted);
+        font-size: 0.62rem;
+        min-width: 52px;
+      }
+
+      .erd-col { color: var(--secondary); flex: 1; }
+
+      .erd-badge {
+        font-family: var(--f-mono);
+        font-size: 0.5rem;
+        letter-spacing: 1px;
+        padding: 1px 6px;
+        border-radius: 2px;
+      }
+
+      .erd-pk { background: rgba(232, 0, 31, 0.15); color: #ff5c70; border: 1px solid rgba(232, 0, 31, 0.25); }
+      .erd-fk { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+      .erd-uk { background: rgba(250, 204, 21, 0.1); color: #fcd34d; border: 1px solid rgba(250, 204, 21, 0.2); }
+
+      .erd-connector {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 0 0.5rem;
+        color: var(--muted);
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: center;
+        min-width: 70px;
+      }
+
+      .erd-connector i { color: rgba(232, 0, 31, 0.5); font-size: 1rem; }
+
+      /* Tabel */
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.2rem 0;
+        font-size: 0.88rem;
+      }
+
+      .report-table thead tr {
+        background: rgba(232, 0, 31, 0.15);
+        border-bottom: 2px solid rgba(232, 0, 31, 0.35);
+      }
+
+      .report-table th {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--red);
+        padding: 0.7rem 1rem;
+        text-align: left;
+      }
+
+      .report-table td {
+        color: var(--secondary);
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .report-table tbody tr:hover { background: rgba(232, 0, 31, 0.04); }
+
+      .badge-rel {
+        font-family: var(--f-mono);
+        font-size: 0.58rem;
+        letter-spacing: 1px;
+        padding: 2px 8px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+
+      .badge-otm { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+      .badge-mto { background: rgba(250, 204, 21, 0.1); color: #fcd34d; border: 1px solid rgba(250, 204, 21, 0.18); }
+      .badge-mtm { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.2); }
+
+      .badge-method {
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        background: rgba(232, 0, 31, 0.12);
+        color: #ff5c70;
+        border: 1px solid rgba(232, 0, 31, 0.2);
+        padding: 2px 8px;
+        border-radius: 2px;
+      }
+
+      /* Side card */
+      .side-card { position: sticky; top: 95px; }
+
+      .side-title {
+        font-family: var(--f-display);
+        font-weight: 800;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #fff;
+        margin-bottom: 1rem;
+      }
+
+      .side-list { list-style: none; padding: 0; margin: 0; }
+
+      .side-list li {
+        display: flex;
+        gap: 0.6rem;
+        align-items: flex-start;
+        color: var(--secondary);
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .side-list i { color: #4ade80; margin-top: 0.2rem; }
+
+      .side-divider {
+        border: none;
+        border-top: 1px solid rgba(255,255,255,0.06);
+        margin: 1.2rem 0;
+      }
+
+      .side-label {
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+      }
+
+      .rel-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-family: var(--f-mono);
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        padding: 4px 10px;
+        border-radius: 2px;
+        margin-bottom: 0.5rem;
+        width: 100%;
+      }
+
+      .rel-pill-otm { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.18); }
+      .rel-pill-mtm { background: rgba(168, 85, 247, 0.1); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.18); }
+
+      @media (max-width: 991px) {
+        .nav-hamburger { display: flex; }
+        .nav-links { display: none; }
+        .side-card { position: static; }
+        .report-meta { grid-template-columns: 1fr; }
+        .erd-connector { min-width: 40px; }
+      }
+
+      @media (max-width: 768px) {
+        .lap-hero-content { padding: 2.5rem 1.5rem 2rem; }
+        .report-header { padding: 1.4rem; }
+        .report-card, .side-card { padding: 1.2rem; }
+        .erd-wrap { flex-direction: column; }
+        .erd-connector { flex-direction: row; padding: 0.5rem 0; }
+      }
+
+            /* ── GITHUB BOX ── */
+      .github-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        background: rgba(8, 11, 16, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        padding: 1.1rem 1.4rem;
+        margin-top: 1.5rem;
+      }
+
+      .github-box-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .github-box-icon {
+        font-size: 2rem;
+        color: var(--secondary);
+        flex-shrink: 0;
+      }
+
+      .github-box-label {
+        font-family: var(--f-mono);
+        font-size: 0.55rem;
+        letter-spacing: 2px;
+        color: var(--red);
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+      }
+
+      .github-box-repo {
+        font-family: var(--f-mono);
+        font-size: 0.8rem;
+        color: #fff;
+        letter-spacing: 0.5px;
+      }
+
+      .github-box-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--f-display);
+        font-weight: 700;
+        font-size: 0.82rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        background: var(--red);
+        padding: 0.55rem 1.2rem;
+        border-radius: 4px;
+        white-space: nowrap;
+        transition: background 0.2s, transform 0.15s;
+      }
+
+      .github-box-btn:hover {
+        background: #ff1f3a;
+        color: #fff;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+
+
+  <body>
+
+    <!-- ============================================================
+         NAVBAR
+    ============================================================ -->
+    <nav class="site-nav">
+      <div class="nav-inner">
+        <a class="nav-brand" href="index.html">
+          <span class="nav-brand-box">RAFI</span>
+          <span class="nav-brand-name">FOLIO</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+          <li><a href="portofolio.html">PORTFOLIO</a></li>
+          <li><a href="laporan.html" class="active">LAPORAN</a></li>
+          <li><a href="kontak.html">CONTACT</a></li>
+        </ul>
+        <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+      <button class="mobile-nav-close" id="mobileNavClose"><i class="fas fa-times"></i></button>
+      <a href="index.html">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="portofolio.html">PORTFOLIO</a>
+      <a href="laporan.html" class="active">LAPORAN</a>
+      <a href="kontak.html">CONTACT</a>
+      <div class="mobile-nav-slash">///</div>
+    </div>
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="lap-hero">
+      <div class="lap-hero-ghost">PRAKTIKUM  02</div>
+      <div class="lap-hero-content">
+        <span class="lap-hero-num">//  02 · PRACTICAL REPORT · FLUTTER</span>
+        <h1 class="lap-hero-title">LAPORAN <span>2</span></h1>
+        <p class="lap-hero-sub">Widgets · Stateless · Stateful · Row · Column · Container · ListTile</p>
+      </div>
+      <div class="lap-hero-line"></div>
+    </section>
+
+    <!-- ============================================================
+         ISI LAPORAN
+    ============================================================ -->
+    <section class="report-sec">
+      <div class="container">
+        <a href="laporan.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Kembali ke Laporan
+        </a>
+
+        <!-- HEADER -->
+        <div class="report-header">
+          <div class="report-label">// Aplikasi Mobile · Flutter</div>
+          <h1 class="report-title">Laporan Praktikum <span>2</span></h1>
+          <p class="report-subtitle">StatelessWidget · StatefulWidget · setState() · Row · Column · Container · ListTile</p>
+          <div class="report-meta">
+            <div class="meta-box">
+              <strong>Disusun Oleh</strong>
+              <span>Rafi Haikal Pratama</span>
+            </div>
+            <div class="meta-box">
+              <strong>NIM</strong>
+              <span>2411532002</span>
+            </div>
+            <div class="meta-box">
+              <strong>Status</strong>
+              <span class="status-done">Selesai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4">
+
+          <!-- ======================================================
+               KONTEN UTAMA
+          ====================================================== -->
+          <div class="col-lg-8">
+            <div class="report-card">
+
+              <!-- INTRO -->
+              <p class="report-text">
+                Laporan ini mencakup dua modul praktikum pertama pada mata kuliah Aplikasi Mobile berbasis Flutter. <strong>Modul 1</strong> membahas pengenalan widget dasar Flutter yaitu <code>StatelessWidget</code> dan <code>StatefulWidget</code> beserta penerapan <code>setState()</code> untuk UI interaktif. <strong>Modul 2</strong> melanjutkan dengan konsep layouting dan styling menggunakan widget <code>Row</code>, <code>Column</code>, <code>Container</code>, dan <code>ListTile</code> untuk membangun tampilan dashboard aplikasi expense tracker.
+              </p>
+
+              <!-- ================================================================
+                   MODUL 1 BANNER
+              ================================================================ -->
+              <div style="border-top: 2px solid var(--red, #e03b3b); border-bottom: 2px solid var(--red, #e03b3b); padding: 1.1rem 1.25rem; margin: 2.5rem 0 2rem; background: rgba(224,59,59,0.04); border-radius: 2px;">
+                <div style="font-size: 0.65rem; letter-spacing: 4px; font-weight: 800; color: var(--red, #e03b3b); text-transform: uppercase; margin-bottom: 0.25rem;">// MODUL 1</div>
+                <div style="font-size: 1.1rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Pengenalan Widgets — Stateless, Stateful &amp; Manajemen State Dasar</div>
+              </div>
+
+              <!-- ------------------------------------------------
+                   SECTION 1 — TUJUAN MODUL 1
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.1</span> Tujuan</h3>
+                <ul class="report-list">
+                  <li>Memahami kerangka dasar aplikasi Flutter (<code>MaterialApp</code> &amp; <code>Scaffold</code>).</li>
+                  <li>Membedakan penggunaan <code>StatelessWidget</code> dan <code>StatefulWidget</code>.</li>
+                  <li>Menerapkan fungsi <code>setState()</code> untuk membangun UI yang interaktif.</li>
+                </ul>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 1.2 — ALAT
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.2</span> Alat</h3>
+                <ul class="report-list">
+                  <li>Flutter SDK</li>
+                  <li>Code Editor: VS Code atau Android Studio</li>
+                  <li>Emulator / Device</li>
+                </ul>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 1.3 — TEORI
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.3</span> Teori</h3>
+
+                <h5 class="sub-section-title">StatelessWidget</h5>
+                <p class="report-text">
+                  <strong>StatelessWidget</strong> adalah widget statis yang tampilannya <em>tidak pernah berubah</em> setelah dirender di layar. Widget ini tidak memiliki data internal yang dapat berubah (State), lebih ringan dan cepat dibandingkan StatefulWidget. Contoh penggunaannya adalah Label Teks, Ikon, dan Gambar statis. Karena tidak ada perubahan state, StatelessWidget hanya memiliki satu method yaitu <code>build()</code> yang mendeskripsikan tampilan widget tersebut.
+                </p>
+
+                <h5 class="sub-section-title">StatefulWidget</h5>
+                <p class="report-text">
+                  <strong>StatefulWidget</strong> adalah widget dinamis yang tampilannya <em>dapat berubah</em> sebagai respons terhadap interaksi pengguna atau perubahan data. Widget ini menyimpan objek data internal (State) dan dapat merender ulang tampilan melalui <code>setState()</code>. Contoh penggunaannya antara lain Form Input, Checkbox, Counter, dan Animasi. StatefulWidget membutuhkan dua kelas: kelas widget itu sendiri dan kelas State yang menyimpan logika serta data.
+                </p>
+
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>Aspek</th>
+                      <th>StatelessWidget</th>
+                      <th>StatefulWidget</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>State internal</td>
+                      <td>Tidak ada</td>
+                      <td>Ada (dapat berubah)</td>
+                    </tr>
+                    <tr>
+                      <td>Rebuild UI</td>
+                      <td>Tidak bisa</td>
+                      <td>Bisa via <code>setState()</code></td>
+                    </tr>
+                    <tr>
+                      <td>Performa</td>
+                      <td>Lebih ringan</td>
+                      <td>Sedikit lebih berat</td>
+                    </tr>
+                    <tr>
+                      <td>Contoh</td>
+                      <td>Label, Ikon, Gambar</td>
+                      <td>Form, Checkbox, Counter</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 1.4 — HASIL & PEMBAHASAN
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.4</span> Hasil &amp; Pembahasan</h3>
+
+                <!-- Program: GreetingWidget -->
+                <h5 class="sub-section-title">Program 1 — GreetingWidget (StatelessWidget)</h5>
+                <p class="report-text">
+                  Program pertama adalah <code>GreetingWidget</code>, sebuah <code>StatelessWidget</code> yang berfungsi menampilkan sapaan pengguna di bagian atas halaman utama aplikasi. Widget ini tidak memerlukan state karena data yang ditampilkan bersifat statis.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/greetingcode.png" alt="Kode GreetingWidget" class="report-img" />
+                  <p class="img-caption">// Kode GreetingWidget — StatelessWidget untuk sapaan pengguna</p>
+                </div>
+
+                <p class="report-text">
+                  Widget ini menggunakan <code>Row</code> untuk menyusun elemen secara horizontal. Di sisi kiri terdapat <code>CircleAvatar</code> berisi ikon person berwarna putih dengan latar biru, di sebelahnya terdapat <code>Column</code> yang memuat dua baris teks: teks nama pengguna "Halo, Budi" dengan ukuran 20 dan font tebal, serta teks subjudul "Selamat datang kembali!" berwarna abu-abu berukuran 14. Karena seluruh data bersifat hardcoded dan tidak bergantung pada state apapun, widget ini cukup didefinisikan sebagai <code>StatelessWidget</code>.
+                </p>
+
+                <!-- Program: BalanceCardWidget -->
+                <h5 class="sub-section-title">Program 2 — BalanceCardWidget (StatefulWidget)</h5>
+                <p class="report-text">
+                  Program kedua adalah <code>BalanceCardWidget</code>, sebuah <code>StatefulWidget</code> yang menampilkan kartu saldo. Widget ini bersifat interaktif karena saldo dapat disembunyikan atau ditampilkan saat ikon mata ditekan.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/balancecardcode.png" alt="Kode BalanceCardWidget" class="report-img" />
+                  <p class="img-caption">// Kode BalanceCardWidget — StatefulWidget dengan toggle visibility saldo</p>
+                </div>
+
+                <p class="report-text">
+                  Class <code>_BalanceCardWidgetState</code> menyimpan satu variabel state yaitu <code>_isBalanceVisible</code> bertipe <code>bool</code> yang nilainya awal <code>true</code>. Method <code>_toggleVisibility()</code> menggunakan <code>setState()</code> untuk membalik nilai boolean tersebut setiap kali dipanggil. Pada method <code>build()</code>, widget <code>Card</code> berwarna biru dibangun menggunakan <code>Padding</code> dan <code>Column</code>. Di baris atas terdapat <code>Row</code> yang memuat teks label "Saldo Utama" dan sebuah <code>IconButton</code> — ikon berganti antara <code>Icons.visibility</code> dan <code>Icons.visibility_off</code> tergantung nilai <code>_isBalanceVisible</code> melalui <em>ternary operator</em>. Teks nominal saldo juga menggunakan ternary: menampilkan "Rp 5.000.000" jika terlihat, atau "Rp *********" jika tersensor.
+                </p>
+
+                <!-- Program: main.dart lengkap -->
+                <h5 class="sub-section-title">Program 3 — main.dart (Integrasi Penuh)</h5>
+                <p class="report-text">
+                  File <code>main.dart</code> mengintegrasikan seluruh widget menjadi satu aplikasi utuh. <code>MyApp</code> sebagai root <code>StatelessWidget</code> mendefinisikan <code>MaterialApp</code> dengan properti <code>debugShowCheckedModeBanner: false</code>, tema biru, dan <code>DashboardScreen</code> sebagai halaman awal. <code>DashboardScreen</code> adalah <code>StatelessWidget</code> yang membangun <code>Scaffold</code> dengan <code>AppBar</code> bertitel "Praktikum 1: Widgets". Bagian <code>body</code> menggunakan <code>Padding</code> dan <code>Column</code> untuk menumpuk <code>GreetingWidget</code> di atas dan <code>BalanceCardWidget</code> di bawahnya dengan jarak <code>SizedBox(height: 20)</code> di antaranya.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/mainp1code.png" alt="main.dart Praktikum 1" class="report-img" />
+                  <p class="img-caption">// main.dart lengkap Praktikum 1 — integrasi GreetingWidget dan BalanceCardWidget</p>
+                </div>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/hasilp1.png" alt="Hasil Akhir Praktikum 1" class="report-img" />
+                  <p class="img-caption">// Tampilan akhir Praktikum 1 — sapaan statis di atas, kartu saldo interaktif di bawah</p>
+                </div>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 1.5 — TUGAS MODUL 1
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>1.5</span> Latihan / Tugas</h3>
+
+                <h5 class="sub-section-title">Tugas 1 — Styling: Ganti Warna BalanceCard</h5>
+                <p class="report-text">
+                  Tugas pertama adalah mengubah warna tema <code>BalanceCardWidget</code> dari <code>Colors.blueAccent</code> menjadi <code>Colors.teal</code> (hijau emerald). Perubahan dilakukan pada properti <code>color</code> di widget <code>Card</code> dan <code>backgroundColor</code> pada <code>CircleAvatar</code> agar konsisten secara visual.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/tugas1code.png" alt="Kode Tugas 1 Modul 1" class="report-img" />
+                  <p class="img-caption">// Perubahan warna card dari Colors.blueAccent ke Colors.teal</p>
+                </div>
+
+                <h5 class="sub-section-title">Tugas 2 — Modifikasi UI: Tambah Nomor Rekening</h5>
+                <p class="report-text">
+                  Tugas kedua adalah menambahkan teks statis "No. Rekening: 1234-5678" di bagian bawah nominal saldo di dalam <code>BalanceCardWidget</code>. Teks ini ditambahkan sebagai widget <code>Text</code> baru setelah widget nominal saldo, di dalam <code>Column</code> yang sama, dengan warna <code>Colors.white70</code> dan ukuran font 13 agar tidak mendominasi tampilan.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/tugas2code.png" alt="Kode Tugas 2 Modul 1" class="report-img" />
+                  <p class="img-caption">// Penambahan teks nomor rekening statis di bawah nominal saldo</p>
+                </div>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/tugasp1.png" alt="Hasil Tugas Modul 1" class="report-img" />
+                  <p class="img-caption">// Hasil akhir tugas: card hijau teal dengan nomor rekening di bawah saldo</p>
+                </div>
+              </section>
+
+              <!-- ================================================================
+                   MODUL 2 BANNER
+              ================================================================ -->
+              <div style="border-top: 2px solid var(--red, #e03b3b); border-bottom: 2px solid var(--red, #e03b3b); padding: 1.1rem 1.25rem; margin: 3rem 0 2rem; background: rgba(224,59,59,0.04); border-radius: 2px;">
+                <div style="font-size: 0.65rem; letter-spacing: 4px; font-weight: 800; color: var(--red, #e03b3b); text-transform: uppercase; margin-bottom: 0.25rem;">// MODUL 2</div>
+                <div style="font-size: 1.1rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Layouting &amp; Styling — Row, Column, Container, dan ListTile</div>
+              </div>
+
+              <!-- ------------------------------------------------
+                   SECTION 2.1 — TUJUAN MODUL 2
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.1</span> Tujuan</h3>
+                <ul class="report-list">
+                  <li>Menerapkan widget <code>Row</code> untuk menyusun deretan tombol aksi secara horizontal.</li>
+                  <li>Menerapkan widget <code>Column</code> untuk menyusun daftar transaksi secara vertikal.</li>
+                  <li>Mengatur <code>padding</code>, <code>margin</code>, dan warna menggunakan widget <code>Container</code>.</li>
+                </ul>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 2.2 — ALAT
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.2</span> Alat</h3>
+                <ul class="report-list">
+                  <li>Flutter SDK</li>
+                  <li>Code Editor: VS Code atau Android Studio</li>
+                  <li>Emulator / Device</li>
+                </ul>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 2.3 — TEORI
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.3</span> Teori</h3>
+
+                <h5 class="sub-section-title">Row</h5>
+                <p class="report-text">
+                  <strong>Row</strong> adalah widget layout yang menyusun children secara horizontal dari kiri ke kanan. Properti utama yang sering digunakan adalah <code>mainAxisAlignment</code> untuk mengatur distribusi ruang horizontal (misalnya <code>spaceEvenly</code> untuk membagi jarak secara merata) dan <code>crossAxisAlignment</code> untuk mengatur perataan vertikal antar child.
+                </p>
+
+                <h5 class="sub-section-title">Column</h5>
+                <p class="report-text">
+                  <strong>Column</strong> adalah widget layout yang menyusun children secara vertikal dari atas ke bawah. Column adalah pasangan Row — jika Row untuk horizontal, Column untuk vertikal. Properti <code>crossAxisAlignment</code> mengatur perataan horizontal child, sedangkan <code>mainAxisAlignment</code> mengatur distribusi ruang vertikal.
+                </p>
+
+                <h5 class="sub-section-title">Container</h5>
+                <p class="report-text">
+                  <strong>Container</strong> adalah widget kotak serbaguna yang dapat menambahkan <code>padding</code>, <code>margin</code>, warna latar, dan batas (<code>border</code>) pada satu widget. Container digunakan untuk membungkus ikon tombol aksi agar mendapatkan latar berwarna dengan sudut melengkung menggunakan <code>BoxDecoration</code>.
+                </p>
+
+                <h5 class="sub-section-title">ListTile</h5>
+                <p class="report-text">
+                  <strong>ListTile</strong> adalah widget bawaan Material Design untuk membuat satu baris daftar yang rapi secara instan. Memiliki tiga slot utama: <code>leading</code> (elemen paling kiri, biasanya ikon atau avatar), <code>title</code> dan <code>subtitle</code> (judul dan subjudul baris), serta <code>trailing</code> (elemen paling kanan, biasanya teks nominal atau tombol).
+                </p>
+
+                <table class="report-table">
+                  <thead>
+                    <tr>
+                      <th>Widget</th>
+                      <th>Arah Susun</th>
+                      <th>Kegunaan Utama</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>Row</code></td>
+                      <td>Horizontal (kiri → kanan)</td>
+                      <td>Tombol sejajar, ikon sejajar</td>
+                    </tr>
+                    <tr>
+                      <td><code>Column</code></td>
+                      <td>Vertikal (atas → bawah)</td>
+                      <td>Daftar item, susun elemen</td>
+                    </tr>
+                    <tr>
+                      <td><code>Container</code></td>
+                      <td>Kotak pembungkus</td>
+                      <td>Padding, margin, warna, dekorasi</td>
+                    </tr>
+                    <tr>
+                      <td><code>ListTile</code></td>
+                      <td>Baris daftar</td>
+                      <td>Item transaksi, menu, kontak</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 2.4 — HASIL & PEMBAHASAN
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.4</span> Hasil &amp; Pembahasan</h3>
+
+                <!-- Program: ActionButtonsWidget -->
+                <h5 class="sub-section-title">Program 1 — ActionButtonsWidget (Row)</h5>
+                <p class="report-text">
+                  Program pertama pada Modul 2 adalah <code>ActionButtonsWidget</code>, sebuah <code>StatelessWidget</code> yang menyusun tiga tombol aksi (Pemasukan, Pengeluaran, Transfer) secara horizontal menggunakan widget <code>Row</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/actionbuttonscode.png" alt="Kode ActionButtonsWidget" class="report-img" />
+                  <p class="img-caption">// Kode ActionButtonsWidget — Row dengan tiga tombol aksi sejajar horizontal</p>
+                </div>
+
+                <p class="report-text">
+                  Widget <code>Row</code> menggunakan <code>mainAxisAlignment: MainAxisAlignment.spaceEvenly</code> agar ketiga tombol terdistribusi merata secara horizontal. Masing-masing tombol dibangun oleh helper method <code>_buildActionButton(IconData, String, Color)</code> yang mengembalikan sebuah <code>Column</code> berisi <code>Container</code> dan <code>Text</code>. <code>Container</code> membungkus <code>Icon</code> dengan padding 12 pixel dan <code>BoxDecoration</code> yang memberikan warna transparan (menggunakan <code>withOpacity(0.2)</code>) serta sudut melengkung (<code>BorderRadius.circular(12)</code>). Pendekatan helper method ini menghindari pengulangan kode karena struktur ketiga tombol identik, hanya berbeda pada ikon, label, dan warna.
+                </p>
+
+                <!-- Program: RecentTransactionsWidget -->
+                <h5 class="sub-section-title">Program 2 — RecentTransactionsWidget (Column + ListTile)</h5>
+                <p class="report-text">
+                  Program kedua adalah <code>RecentTransactionsWidget</code>, sebuah <code>StatelessWidget</code> yang menampilkan daftar transaksi terakhir menggunakan kombinasi <code>Column</code> dan <code>ListTile</code>.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/transactionscode.png" alt="Kode RecentTransactionsWidget" class="report-img" />
+                  <p class="img-caption">// Kode RecentTransactionsWidget — Column + ListTile untuk daftar riwayat transaksi</p>
+                </div>
+
+                <p class="report-text">
+                  Widget ini menggunakan <code>Column</code> sebagai wadah utama dengan <code>crossAxisAlignment: CrossAxisAlignment.start</code>. Teks judul "Transaksi Terakhir" ditampilkan dengan font tebal berukuran 18. Di bawahnya terdapat sebuah <code>Card</code> dengan <code>elevation: 2</code> dan sudut melengkung yang membungkus <code>Column</code> kedua berisi deretan item <code>ListTile</code>. Setiap <code>ListTile</code> memiliki <code>leading</code> berupa <code>CircleAvatar</code> berwarna sesuai jenis transaksi, <code>title</code> nama transaksi, <code>subtitle</code> tanggal, dan <code>trailing</code> nominal dengan warna merah untuk pengeluaran dan hijau untuk pemasukan. Di antara setiap <code>ListTile</code> ditambahkan <code>Divider(height: 1)</code> sebagai pemisah visual.
+                </p>
+
+                <!-- Program: DashboardScreen + SingleChildScrollView -->
+                <h5 class="sub-section-title">Program 3 — DashboardScreen dengan SingleChildScrollView</h5>
+                <p class="report-text">
+                  Pada Modul 2, <code>DashboardScreen</code> diperbarui untuk mengintegrasikan komponen dari Modul 1 (<code>GreetingWidget</code>, <code>BalanceCardWidget</code>) dengan komponen baru (<code>ActionButtonsWidget</code>, <code>RecentTransactionsWidget</code>). Karena total konten sudah cukup panjang untuk melampaui tinggi layar, seluruh <code>Column</code> dibungkus dengan <code>SingleChildScrollView</code> agar pengguna dapat meng-scroll konten ke bawah tanpa terjadi overflow.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/dashboardcode.png" alt="Kode DashboardScreen Modul 2" class="report-img" />
+                  <p class="img-caption">// Kode DashboardScreen yang diperbarui — SingleChildScrollView membungkus seluruh Column</p>
+                </div>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/hasilp2.png" alt="Hasil Akhir Praktikum 2" class="report-img" />
+                  <p class="img-caption">// Tampilan akhir dashboard: sapaan, kartu saldo, tombol aksi, dan daftar transaksi</p>
+                </div>
+              </section>
+
+              <!-- ------------------------------------------------
+                   SECTION 2.5 — TUGAS MODUL 2
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>2.5</span> Latihan / Tugas</h3>
+
+                <h5 class="sub-section-title">Tugas 1 — Styling: Warna Trailing Text</h5>
+                <p class="report-text">
+                  Tugas pertama adalah memastikan warna teks <code>trailing</code> pada setiap <code>ListTile</code> konsisten: teks pengeluaran berwarna merah (<code>Colors.red</code>) dan teks pemasukan berwarna hijau (<code>Colors.green</code>). Hal ini sudah diterapkan pada source code utama. Setiap <code>ListTile</code> pengeluaran menggunakan <code>TextStyle(color: Colors.red, fontWeight: FontWeight.bold)</code> sedangkan pemasukan menggunakan <code>TextStyle(color: Colors.green, fontWeight: FontWeight.bold)</code>.
+                </p>
+
+                <h5 class="sub-section-title">Tugas 2 — Tambah 2 Transaksi Baru</h5>
+                <p class="report-text">
+                  Tugas kedua adalah menambahkan 2 transaksi fiktif baru di bawah transaksi yang sudah ada. Dua transaksi baru yang ditambahkan adalah "Beli Buku" (pengeluaran Rp 75.000, ikon <code>Icons.book</code>) dan "Freelance Project" (pemasukan Rp 500.000, ikon <code>Icons.laptop</code>), masing-masing dilengkapi <code>Divider</code> dan warna trailing yang sesuai.
+                </p>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/tugascode.png" alt="Kode Tugas 2 Modul 2" class="report-img" />
+                  <p class="img-caption">// Penambahan 2 ListTile transaksi baru: Beli Buku dan Freelance Project</p>
+                </div>
+
+                <div class="report-img-box">
+                  <img src="images/prakapmob2/tugasp2.png" alt="Hasil Tugas Modul 2" class="report-img" />
+                  <p class="img-caption">// Hasil akhir tugas: daftar transaksi bertambah menjadi 5 item dengan warna trailing konsisten</p>
+                </div>
+              </section>
+
+              <!-- ------------------------------------------------
+                   KESIMPULAN
+              ------------------------------------------------ -->
+              <section class="report-section">
+                <h3 class="section-title"><span>3.</span> Kesimpulan</h3>
+                <p class="report-text">
+                  Dari Praktikum 1 dipahami bahwa <code>StatelessWidget</code> digunakan untuk komponen yang tidak bergantung pada data yang berubah, sedangkan <code>StatefulWidget</code> digunakan ketika tampilan perlu merespons interaksi pengguna. Mekanisme <code>setState()</code> menjadi jembatan antara perubahan data dan pembaruan tampilan — tanpa <code>setState()</code>, perubahan variabel state tidak akan memperbarui UI secara otomatis. Pemilihan yang tepat antara keduanya sangat berpengaruh pada efisiensi performa aplikasi.
+                </p>
+                <p class="report-text">
+                  Dari Praktikum 2 dipahami bahwa Flutter menyediakan widget layout yang sangat spesifik dan komposabel: <code>Row</code> untuk horizontal, <code>Column</code> untuk vertikal, <code>Container</code> untuk dekorasi dan pemberian ruang, serta <code>ListTile</code> untuk membuat baris daftar yang terstruktur. Kombinasi widget-widget ini memungkinkan pembangunan layout yang kompleks secara deklaratif dan mudah dibaca. Penggunaan <code>SingleChildScrollView</code> menunjukkan pentingnya menangani overflow secara eksplisit ketika konten berpotensi melampaui tinggi layar.
+                </p>
+                <p class="report-text">
+                  Secara keseluruhan, kedua modul ini membentuk fondasi yang kuat dalam pengembangan Flutter: memahami siklus hidup widget (Stateless vs Stateful), menguasai tata letak dasar (Row, Column, Container), dan menggunakan komponen Material Design siap pakai (ListTile, Card, AppBar) secara efektif.
+                </p>
+              </section>
+
+              <!-- GitHub Link -->
+              <div class="github-box">
+                <div class="github-box-left">
+                  <i class="fab fa-github github-box-icon"></i>
+                  <div>
+                    <div class="github-box-label">SOURCE CODE</div>
+                    <div class="github-box-repo">praktikum-flutter / widgets-layouting</div>
+                  </div>
+                </div>
+                <a href="https://github.com/RafihaikalP/2411532002_AplikasiMobile_A_RafiHaikalPratama" target="_blank" rel="noopener noreferrer" class="github-box-btn">
+                  <i class="fab fa-github"></i> Lihat di GitHub
+                </a>
+              </div>
+
+            </div><!-- /report-card -->
+          </div><!-- /col-lg-8 -->
+
+          <!-- ======================================================
+               SIDEBAR
+          ====================================================== -->
+          <div class="col-lg-4">
+            <div class="side-card">
+              <h5 class="side-title">Detail Praktikum</h5>
+
+              <!-- Modul 1 -->
+              <div style="font-size: 0.65rem; letter-spacing: 3px; font-weight: 700; color: var(--red, #e03b3b); text-transform: uppercase; margin: 0.25rem 0 0.5rem;">//  MODUL 1</div>
+              <ul class="side-list" style="margin-bottom: 1.25rem;">
+                <li><i class="fas fa-check-circle"></i> StatelessWidget (GreetingWidget)</li>
+                <li><i class="fas fa-check-circle"></i> StatefulWidget (BalanceCardWidget)</li>
+                <li><i class="fas fa-check-circle"></i> setState() — Toggle Visibility Saldo</li>
+                <li><i class="fas fa-check-circle"></i> Ternary Operator pada UI</li>
+                <li><i class="fas fa-check-circle"></i> Tugas: Ganti Warna Card ke Teal</li>
+                <li><i class="fas fa-check-circle"></i> Tugas: Tambah Nomor Rekening</li>
+              </ul>
+
+              <!-- Modul 2 -->
+              <div style="font-size: 0.65rem; letter-spacing: 3px; font-weight: 700; color: var(--red, #e03b3b); text-transform: uppercase; margin: 0 0 0.5rem;">//  MODUL 2</div>
+              <ul class="side-list">
+                <li><i class="fas fa-check-circle"></i> Row (ActionButtonsWidget)</li>
+                <li><i class="fas fa-check-circle"></i> Column + ListTile (Transaksi)</li>
+                <li><i class="fas fa-check-circle"></i> Container — Dekorasi Tombol</li>
+                <li><i class="fas fa-check-circle"></i> Card + Divider pada Daftar</li>
+                <li><i class="fas fa-check-circle"></i> SingleChildScrollView</li>
+                <li><i class="fas fa-check-circle"></i> Tugas: Warna Trailing Text</li>
+                <li><i class="fas fa-check-circle"></i> Tugas: Tambah 2 Transaksi Baru</li>
+              </ul>
+            </div>
+          </div>
+
+        </div><!-- /row -->
+      </div><!-- /container -->
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+    ============================================================ -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="ft-bottom">
+          <p class="ft-copy">&copy; 2026 RAFI HAIKAL PRATAMA. ALL RIGHTS RESERVED.</p>
+          <div class="ft-built">BUILT WITH PASSION <span class="sl">///</span></div>
+        </div>
+      </div>
+    </footer>
+
+    <a href="#" class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></a>
+
+    <!-- ============================================================
+         SCRIPTS
+    ============================================================ -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const st = document.getElementById("scrollTop");
+      window.addEventListener("scroll", () => {
+        st.classList.toggle("show", window.scrollY > 300);
+      });
+      st.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      const hamburger   = document.getElementById("hamburger");
+      const mobileNav   = document.getElementById("mobileNav");
+      const mobileClose = document.getElementById("mobileNavClose");
+
+      function toggleMenu() {
+        const isOpen = mobileNav.classList.toggle("open");
+        hamburger.classList.toggle("open", isOpen);
+        hamburger.setAttribute("aria-expanded", isOpen);
+        document.body.style.overflow = isOpen ? "hidden" : "";
+      }
+
+      hamburger.addEventListener("click", toggleMenu);
+      mobileClose.addEventListener("click", toggleMenu);
+      mobileNav.querySelectorAll("a").forEach((a) =>
+        a.addEventListener("click", () => {
+          hamburger.classList.remove("open");
+          mobileNav.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+          document.body.style.overflow = "";
+        })
+      );
+    </script>
+
+  </body>
+</html>
